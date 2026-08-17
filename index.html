@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nestora — Thoughtful design for modern living</title>
+    <meta
+      name="description"
+      content="Thoughtfully designed home essentials for modern living."
+    />
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="container header__container">
+        <a class="logo" href="index.html"> NESTORA. </a>
+
+        <nav class="navigation">
+          <ul class="navigation__list">
+            <li class="navigation__item">
+              <a class="navigation__link" href="shop.html"> Shop </a>
+            </li>
+
+            <li class="navigation__item">
+              <a class="navigation__link" href="collection.html">
+                Collections
+              </a>
+            </li>
+
+            <li class="navigation__item">
+              <a class="navigation__link" href="about.html"> About </a>
+            </li>
+
+            <li class="navigation__item">
+              <a class="navigation__link" href="#"> Journal </a>
+            </li>
+
+            <li class="navigation__item">
+              <a class="navigation__link" href="contact.html"> Contact </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header__actions">
+          <button class="header__action" type="button" aria-label="Search">
+            Search
+          </button>
+
+          <a class="header__action" href="#" aria-label="Account"> Account </a>
+
+          <a class="header__action" href="cart.html" aria-label="Shopping cart">
+            Cart
+          </a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero__container">
+          <div class="hero__content">
+            <p class="hero__eyebrow">Smart home. Beautiful life.</p>
+
+            <h1 class="hero__title">
+              Thoughtful design
+              <br />
+              for modern living.
+            </h1>
+
+            <p class="hero__description">
+              Functional home essentials that bring beauty, comfort, and
+              simplicity to every space.
+            </p>
+
+            <div class="hero__actions">
+              <a class="button button--primary" href="shop.html">
+                Shop bestsellers
+              </a>
+
+              <a class="button button--secondary" href="collection.html">
+                Explore collections
+              </a>
+            </div>
+
+            <div class="hero__social-proof">
+              <div class="hero__avatars">
+                <!-- avatars later -->
+              </div>
+
+              <div class="hero__rating">
+                <div class="hero__stars">★★★★★</div>
+
+                <p>20,000+ happy customers</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__image">
+            <img
+              src="./image/hero.modern.jpeg"
+              alt="Modern living room with warm ambient lighting"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+      <section class="benefits">
+        <div class="container">
+          <ul class="benefits__list">
+            <li class="benefits__item">
+              <strong>Free shipping</strong>
+              <span>On orders over $50</span>
+            </li>
+
+            <li class="benefits__item">
+              <strong>30-day returns</strong>
+              <span>Hassle-free returns</span>
+            </li>
+
+            <li class="benefits__item">
+              <strong>Secure payments</strong>
+              <span>100% secure checkout</span>
+            </li>
+
+            <li class="benefits__item">
+              <strong>24/7 support</strong>
+              <span>We're here to help</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- COLLECTIONS -->
+      <section class="collections">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__eyebrow">Explore</p>
+
+              <h2 class="section-heading__title">Shop by collection</h2>
+            </div>
+
+            <a href="collection.html"> View all </a>
+          </div>
+
+          <div class="collections__grid">
+            <a class="collection-card" href="#">
+              <img src="image/categories/lighting.jpg" alt="Home lighting" />
+              <h3>Lighting</h3>
+            </a>
+
+            <a class="collection-card" href="#">
+              <img
+                src="image/categories/organization.jpg"
+                alt="Home organization"
+              />
+              <h3>Organization</h3>
+            </a>
+
+            <a class="collection-card" href="#">
+              <img
+                src="image/categories/smart-home.jpg"
+                alt="Smart home products"
+              />
+              <h3>Smart Home</h3>
+            </a>
+
+            <a class="collection-card" href="#">
+              <img
+                src="image/categories/bathroom.jpg"
+                alt="Bathroom products"
+              />
+              <h3>Bathroom</h3>
+            </a>
+
+            <a class="collection-card" href="#">
+              <img src="image/categories/kitchen.jpg" alt="Kitchen products" />
+              <h3>Kitchen</h3>
+            </a>
+
+            <a class="collection-card" href="#">
+              <img src="image/categories/decor.jpg" alt="Home decor" />
+              <h3>Decor</h3>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEST SELLERS -->
+      <section class="products">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__eyebrow">Curated for you</p>
+
+              <h2 class="section-heading__title">Best sellers</h2>
+            </div>
+
+            <a href="shop.html"> View all </a>
+          </div>
+
+          <div class="products__grid" id="featured-products">
+            <!-- Products will be generated with JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- LIFESTYLE -->
+      <section class="lifestyle">
+        <div class="container lifestyle__container">
+          <div class="lifestyle__content">
+            <p class="lifestyle__eyebrow">Better spaces. Better days.</p>
+
+            <h2 class="lifestyle__title">
+              Small changes.
+              <br />
+              Big impact.
+            </h2>
+
+            <p class="lifestyle__description">
+              Thoughtfully selected pieces designed to bring comfort, beauty,
+              and function into your everyday life.
+            </p>
+
+            <a class="button button--primary" href="about.html"> Our story </a>
+          </div>
+
+          <div class="lifestyle__image">
+            <img
+              src="./image/lifestyle.interior.jpeg"
+              alt="Elegant modern home interior"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section class="reviews">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__eyebrow">Customer stories</p>
+
+              <h2 class="section-heading__title">Loved by thousands.</h2>
+            </div>
+
+            <a href="#"> Read all reviews </a>
+          </div>
+
+          <div class="reviews__grid">
+            <article class="review">
+              <div class="review__rating">★★★★★</div>
+
+              <p class="review__text">
+                "Beautiful products and surprisingly fast shipping. Everything
+                feels much more premium in person."
+              </p>
+
+              <span class="review__author"> Sarah M. — Chicago, IL </span>
+            </article>
+
+            <article class="review">
+              <div class="review__rating">★★★★★</div>
+
+              <p class="review__text">
+                "Finally found a store with products that actually make my
+                apartment better."
+              </p>
+
+              <span class="review__author"> Daniel R. — Austin, TX </span>
+            </article>
+
+            <article class="review">
+              <div class="review__rating">★★★★★</div>
+
+              <p class="review__text">
+                "The quality, packaging and design are excellent. Definitely
+                ordering again."
+              </p>
+
+              <span class="review__author"> Jessica T. — New York, NY </span>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__grid">
+          <div class="footer__brand">
+            <a class="logo" href="index.html"> NESTORA. </a>
+
+            <p>Thoughtful design for modern living.</p>
+          </div>
+
+          <div class="footer__column">
+            <h3>Shop</h3>
+
+            <a href="shop.html">All products</a>
+            <a href="#">Bestsellers</a>
+            <a href="#">New arrivals</a>
+            <a href="collection.html">Collections</a>
+          </div>
+
+          <div class="footer__column">
+            <h3>Customer care</h3>
+
+            <a href="shipping.html">Shipping & delivery</a>
+            <a href="returns.html">Returns & refunds</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+          </div>
+
+          <div class="footer__column">
+            <h3>Company</h3>
+
+            <a href="about.html">About us</a>
+            <a href="#">Our story</a>
+            <a href="#">Journal</a>
+            <a href="#">Sustainability</a>
+          </div>
+
+          <div class="footer__newsletter">
+            <h3>Stay inspired</h3>
+
+            <p>New arrivals, exclusive offers and home tips.</p>
+
+            <form class="newsletter">
+              <input type="email" placeholder="Your email address" required />
+
+              <button type="submit">→</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p>© 2026 NESTORA. All rights reserved.</p>
+
+          <div class="footer__legal">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+    <script src="js/products.js"></script>
+  </body>
+</html>
