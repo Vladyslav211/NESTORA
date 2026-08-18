@@ -120,4 +120,6 @@ function renderProducts(products) {
   productsContainer.innerHTML = products.map(createProductCard).join('');
 }
 
-renderProducts(products);
+if (productsContainer) {
+  renderProducts(products);
+}

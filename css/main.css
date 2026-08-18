@@ -7,10 +7,9 @@
 @import './reset.css';
 @import './shop.css';
 @import './variables.css';
-@import './common.css';
 @import './variables.css';
 @import './benefits.css';
 @import './collection.css';
 @import './products.css';
 @import './lifestyle.css';
-@import "./reviews.css"
+@import './reviews.css';
