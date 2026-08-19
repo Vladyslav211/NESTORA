@@ -9,7 +9,14 @@
 @import './variables.css';
 @import './variables.css';
 @import './benefits.css';
-@import './collection.css';
+@import './collection-card.css';
 @import './products.css';
 @import './lifestyle.css';
 @import './reviews.css';
+@import './checkout.css';
+@import './collection.css';
+@import './about.css';
+@import './contact.css';
+@import './faq.css';
+@import './shipping.css';
+@import './legal.css';

@@ -1,0 +1,127 @@
+.info-page {
+  padding: 72px 0 96px;
+}
+
+.info-page__intro {
+  max-width: 760px;
+  margin-bottom: 64px;
+}
+
+.info-page__eyebrow {
+  margin-bottom: 20px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.info-page__title {
+  margin-bottom: 24px;
+  font-size: clamp(52px, 11vw, 96px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+.info-page__description {
+  max-width: 540px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.info-page__content {
+  max-width: 850px;
+}
+
+.info-block {
+  padding: 32px 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.info-block h2 {
+  margin-bottom: 16px;
+  font-family: var(--font-primary);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.info-block p {
+  max-width: 700px;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.shipping-table {
+  margin-top: 28px;
+  border-top: 1px solid var(--color-border);
+}
+
+.shipping-table__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.shipping-table__row--header {
+  color: var(--color-black);
+  font-weight: 600;
+}
+
+.info-page__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border);
+}
+
+.info-page__cta p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .info-page {
+    padding: 96px 0 120px;
+  }
+
+  .info-page__intro {
+    margin-bottom: 80px;
+  }
+
+  .info-block {
+    padding: 40px 0;
+  }
+
+  .info-block h2 {
+    font-size: 22px;
+  }
+
+  .info-block p {
+    font-size: 16px;
+  }
+
+  .info-page__cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1200px) {
+  .info-page {
+    padding: 120px 0 140px;
+  }
+
+  .info-page__intro {
+    margin-bottom: 96px;
+  }
+}
