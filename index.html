@@ -55,6 +55,38 @@
         </div>
       </div>
     </header>
+    <div class="search-overlay" id="search-overlay" aria-hidden="true">
+      <div class="search-overlay__backdrop" data-search-close></div>
+
+      <div class="search-overlay__panel">
+        <div class="search-overlay__header">
+          <p class="search-overlay__eyebrow">Search</p>
+
+          <button
+            class="search-overlay__close"
+            type="button"
+            data-search-close
+            aria-label="Close search"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="search-overlay__input-wrapper">
+          <input
+            class="search-overlay__input"
+            id="search-input"
+            type="search"
+            placeholder="Search products..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="search-results" id="search-results">
+          <p class="search-results__placeholder">Start typing to search.</p>
+        </div>
+      </div>
+    </div>
     <main>
       <!-- HERO -->
       <section class="hero">
@@ -214,7 +246,7 @@
             <a class="collection-card" href="collection.html?category=Bathroom">
               <div class="collection-card__image">
                 <img
-                  src="image/collections/bathroom.jpg"
+                  src="./image/bedroom collection.jpeg"
                   alt="Bathroom collection"
                 />
               </div>
@@ -233,7 +265,7 @@
             <a class="collection-card" href="collection.html?category=Kitchen">
               <div class="collection-card__image">
                 <img
-                  src="image/collections/kitchen.jpg"
+                  src="./image/kitchen collection.jpeg"
                   alt="Kitchen collection"
                 />
               </div>
@@ -255,7 +287,7 @@
             >
               <div class="collection-card__image">
                 <img
-                  src="image/collections/home-decor.jpg"
+                  src="./image/home decor collection.jpeg"
                   alt="Home decor collection"
                 />
               </div>
@@ -434,5 +466,6 @@
 
     <script type="module" src="js/main.js"></script>
     <script src="js/products.js"></script>
+    <script src="js/search.js"></script>
   </body>
 </html>
