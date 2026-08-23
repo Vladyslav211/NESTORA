@@ -141,6 +141,9 @@
   line-height: 0.92;
   letter-spacing: -0.05em;
 }
+.story-image {
+  padding-top: 20px;
+}
 
 @media (min-width: 768px) {
   .about-hero {

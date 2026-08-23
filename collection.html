@@ -61,6 +61,40 @@
         </div>
       </div>
     </header>
+    <!-- SEARCH -->
+    <div class="search-overlay" id="search-overlay" aria-hidden="true">
+      <div class="search-overlay__backdrop" data-search-close></div>
+
+      <div class="search-overlay__panel">
+        <div class="search-overlay__header">
+          <p class="search-overlay__eyebrow">Search</p>
+
+          <button
+            class="search-overlay__close"
+            type="button"
+            data-search-close
+            aria-label="Close search"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="search-overlay__input-wrapper">
+          <input
+            class="search-overlay__input"
+            id="search-input"
+            type="search"
+            placeholder="Search products..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="search-results" id="search-results">
+          <p class="search-results__placeholder">Start typing to search.</p>
+        </div>
+      </div>
+    </div>
+    <!-- SEARCH / -->
 
     <main>
       <section class="collection-hero">
@@ -155,5 +189,6 @@
 
     <script src="js/products.js"></script>
     <script src="js/collection.js"></script>
+    <script src="js/search.js"></script>
   </body>
 </html>
