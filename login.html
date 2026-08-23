@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Account — NESTORA.</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body>
+    <main class="auth">
+      <div class="auth__container">
+        <a class="auth__logo" href="index.html"> NESTORA. </a>
+
+        <div class="auth__content">
+          <p class="auth__eyebrow">Welcome back</p>
+
+          <h1 class="auth__title">Sign in to your account.</h1>
+
+          <p class="auth__description">
+            Access your orders, rewards and NESTORA. points.
+          </p>
+
+          <form class="auth__form" id="login-form">
+            <label class="auth__field">
+              <span> Email address </span>
+
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </label>
+
+            <label class="auth__field">
+              <span> Password </span>
+
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+            </label>
+
+            <button class="auth__submit" type="submit">Sign in</button>
+          </form>
+
+          <p class="auth__message" id="login-message" hidden></p>
+
+          <div class="auth__divider">
+            <span>OR</span>
+          </div>
+
+          <p class="auth__register-text">Don't have an account?</p>
+
+          <a class="auth__register-link" href="register.html">
+            Create an account →
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>

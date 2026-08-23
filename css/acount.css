@@ -1,0 +1,506 @@
+.account {
+  padding: 72px 0 96px;
+}
+
+.account__header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.account__eyebrow {
+  margin: 0 0 16px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.account__title {
+  margin: 0;
+
+  font-family: var(--font-primary);
+  font-size: clamp(42px, 10vw, 72px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.account__logout {
+  align-self: flex-start;
+
+  padding: 0;
+
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 0;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.account__logout:hover {
+  color: var(--color-black);
+}
+
+/* POINTS */
+
+.account__points {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 16px;
+}
+
+.account__points-main,
+.account__points-reward {
+  padding: 28px;
+
+  color: var(--color-white);
+  background-color: var(--color-black);
+}
+
+.account__points-reward {
+  color: var(--color-black);
+  background-color: var(--color-surface);
+}
+
+.account__card-label {
+  margin: 0 0 18px;
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.account__points-value {
+  margin: 0;
+
+  font-family: var(--font-primary);
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.account__points-value-label {
+  margin: 10px 0 0;
+
+  font-size: 12px;
+  opacity: 0.65;
+  text-transform: uppercase;
+}
+
+.account__reward-value {
+  margin: 0 0 18px;
+
+  font-family: var(--font-primary);
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.account__reward-link {
+  color: var(--color-black);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* GRID */
+
+.account__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* CARD */
+
+.account-card {
+  padding: 28px;
+
+  border: 1px solid var(--color-border);
+}
+
+.account-card--full {
+  grid-column: 1 / -1;
+}
+
+.account-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 28px;
+}
+
+.account-card__eyebrow {
+  margin: 0 0 10px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.account-card h2 {
+  margin: 0;
+
+  font-family: var(--font-primary);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.account-card__action {
+  flex-shrink: 0;
+
+  color: var(--color-black);
+  background: transparent;
+  border: 0;
+
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+
+  cursor: pointer;
+}
+
+/* PROFILE */
+
+.account-profile {
+  display: grid;
+  gap: 20px;
+}
+
+.account-profile__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.account-profile__item span {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.account-profile__item strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ORDERS */
+
+.account-order {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 18px 0;
+
+  border-top: 1px solid var(--color-border);
+}
+
+.account-order > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.account-order strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.account-order span {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.account-order__status {
+  color: var(--color-black) !important;
+}
+
+/* REWARDS */
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.reward-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 24px;
+
+  color: var(--color-black);
+  background-color: var(--color-surface);
+  border: 1px solid transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.reward-card:hover {
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+}
+
+.reward-card__value {
+  margin-bottom: 18px;
+
+  font-family: var(--font-primary);
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.reward-card strong {
+  margin-bottom: 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.reward-card > span:last-child {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+/* EARN */
+
+.earn-list {
+  border-top: 1px solid var(--color-border);
+}
+
+.earn-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.earn-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.earn-item strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.earn-item span {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.earn-item b {
+  flex-shrink: 0;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* REFERRAL */
+
+.referral__description {
+  margin: 0 0 24px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.referral__link {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  border: 1px solid var(--color-border);
+}
+
+.referral__link span {
+  min-width: 0;
+
+  flex: 1;
+
+  padding: 14px;
+
+  overflow: hidden;
+
+  color: var(--color-text-secondary);
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.referral__link button {
+  flex-shrink: 0;
+
+  padding: 14px 16px;
+
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border: 0;
+
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+.referral__copied {
+  margin: 12px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 11px;
+}
+
+/* POINT HISTORY */
+
+.points-history {
+  border-top: 1px solid var(--color-border);
+}
+
+.points-history__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.points-history__item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.points-history__item strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.points-history__item span {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.points-history__item b {
+  color: #2f6b3f;
+
+  font-size: 13px;
+}
+
+.points-history__item--spent b {
+  color: var(--color-text-secondary);
+}
+
+/* TABLET */
+
+@media (min-width: 768px) {
+  .account {
+    padding: 96px 0 120px;
+  }
+
+  .account__header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 48px;
+  }
+
+  .account__logout {
+    margin-bottom: 5px;
+  }
+
+  .account__points {
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+  }
+
+  .account__points-main,
+  .account__points-reward {
+    padding: 40px;
+  }
+
+  .account__points-value {
+    font-size: 72px;
+  }
+
+  .account__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .account-card {
+    padding: 36px;
+  }
+
+  .rewards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* DESKTOP */
+
+@media (min-width: 1200px) {
+  .account {
+    padding: 120px 0 140px;
+  }
+
+  .account__header {
+    margin-bottom: 64px;
+  }
+
+  .account__points-main,
+  .account__points-reward {
+    padding: 48px;
+  }
+
+  .account__points-value {
+    font-size: 88px;
+  }
+
+  .account__reward-value {
+    font-size: 56px;
+  }
+
+  .account-card {
+    padding: 40px;
+  }
+}

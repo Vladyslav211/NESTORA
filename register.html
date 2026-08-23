@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Create Account — NESTORA.</title>
+
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body>
+    <main class="auth">
+      <div class="auth__container">
+        <a class="auth__logo" href="index.html"> NESTORA. </a>
+
+        <div class="auth__content">
+          <p class="auth__eyebrow">Join NESTORA.</p>
+
+          <h1 class="auth__title">Create your account.</h1>
+
+          <p class="auth__description">
+            Join NESTORA. and start earning points with every interaction.
+          </p>
+
+          <form class="auth__form" id="register-form">
+            <!-- FIRST NAME -->
+
+            <label class="auth__field">
+              <span> First name </span>
+
+              <input
+                type="text"
+                id="register-first-name"
+                name="firstName"
+                placeholder="Vlad"
+                autocomplete="given-name"
+                required
+              />
+            </label>
+
+            <!-- LAST NAME -->
+
+            <label class="auth__field">
+              <span> Last name </span>
+
+              <input
+                type="text"
+                id="register-last-name"
+                name="lastName"
+                placeholder="Voloshyn"
+                autocomplete="family-name"
+                required
+              />
+            </label>
+
+            <!-- EMAIL -->
+
+            <label class="auth__field">
+              <span> Email address </span>
+
+              <input
+                type="email"
+                id="register-email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </label>
+
+            <!-- PASSWORD -->
+
+            <label class="auth__field">
+              <span> Password </span>
+
+              <input
+                type="password"
+                id="register-password"
+                name="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+              />
+            </label>
+
+            <!-- TERMS -->
+
+            <label class="auth__checkbox">
+              <input type="checkbox" id="register-terms" required />
+
+              <span>
+                I agree to the
+                <a href="terms.html"> Terms of Service </a>
+                and
+                <a href="privacy.html"> Privacy Policy </a>.
+              </span>
+            </label>
+
+            <!-- SUBMIT -->
+
+            <button class="auth__submit" type="submit">Create account</button>
+          </form>
+
+          <p class="auth__message" id="register-message" hidden></p>
+
+          <!-- BONUS -->
+
+          <div class="auth__bonus">
+            <strong> +500 points </strong>
+
+            <span> You'll receive 500 points for creating your account. </span>
+          </div>
+
+          <div class="auth__divider">
+            <span>OR</span>
+          </div>
+
+          <p class="auth__register-text">Already have an account?</p>
+
+          <a class="auth__register-link" href="login.html"> Sign in → </a>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/register.js"></script>
+  </body>
+</html>
