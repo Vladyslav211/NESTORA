@@ -428,6 +428,184 @@
 .points-history__item--spent b {
   color: var(--color-text-secondary);
 }
+/* =========================================
+   PROFILE EDIT
+========================================= */
+
+/* =========================================
+   PROFILE EDIT
+========================================= */
+
+.profile-edit {
+  display: grid;
+  grid-template-rows: 0fr;
+
+  margin-top: 0;
+  padding-top: 0;
+
+  opacity: 0;
+
+  border-top: 1px solid transparent;
+
+  overflow: hidden;
+
+  transition:
+    grid-template-rows 0.35s ease,
+    margin-top 0.35s ease,
+    padding-top 0.35s ease,
+    opacity 0.25s ease,
+    border-color 0.35s ease;
+}
+
+.profile-edit__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.profile-edit.is-open {
+  grid-template-rows: 1fr;
+
+  margin-top: 36px;
+  padding-top: 36px;
+
+  opacity: 1;
+
+  border-top-color: #dedbd5;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+#profile-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 26px;
+
+  max-width: 100%;
+}
+
+/* =========================================
+   FIELD
+========================================= */
+
+#profile-form .auth__field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+#profile-form .auth__field span {
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  color: #151515;
+}
+
+#profile-form .auth__field input {
+  width: 100%;
+
+  padding: 14px 0;
+
+  font-family: inherit;
+  font-size: 16px;
+
+  color: #151515;
+
+  background: transparent;
+
+  border: 0;
+  border-bottom: 1px solid #d8d5cf;
+
+  outline: none;
+
+  transition: border-color 0.2s ease;
+}
+
+#profile-form .auth__field input:focus {
+  border-bottom-color: #151515;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.profile-edit__actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+/* SAVE */
+
+.profile-edit__save {
+  padding: 13px 22px;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #fff;
+
+  background: #151515;
+
+  border: 1px solid #151515;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-edit__save:hover {
+  color: #151515;
+
+  background: transparent;
+}
+
+/* CANCEL */
+
+.profile-edit__cancel {
+  padding: 13px 22px;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #151515;
+
+  background: transparent;
+
+  border: 1px solid #d8d5cf;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.profile-edit__cancel:hover {
+  background: #f3f1ed;
+
+  border-color: #151515;
+}
+/* profile edit / */
 
 /* TABLET */
 

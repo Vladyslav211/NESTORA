@@ -49,6 +49,15 @@
             </li>
           </ul>
         </nav>
+        <button
+          class="btn-menu"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+        </button>
 
         <div class="header__actions">
           <button class="header__action" type="button" aria-label="Search">
@@ -106,7 +115,9 @@
             <div>
               <p class="account__eyebrow">My account</p>
 
-              <h1 class="account__title">Welcome back, Vlad.</h1>
+              <h1 class="account__title">
+                Welcome back, <span id="customer-name"></span>.
+              </h1>
             </div>
 
             <button class="account__logout" type="button" id="logout-button">
@@ -149,66 +160,96 @@
                   <h2>Personal information</h2>
                 </div>
 
-                <button class="account-card__action" type="button">Edit</button>
+                <button
+                  class="account-card__action"
+                  type="button"
+                  id="edit-profile-button"
+                >
+                  Edit
+                </button>
               </div>
 
               <div class="account-profile">
                 <div class="account-profile__item">
-                  <span> Name </span>
-
-                  <strong> Vlad </strong>
+                  <span>Name</span>
+                  <strong id="profile-name"></strong>
                 </div>
 
                 <div class="account-profile__item">
-                  <span> Email </span>
+                  <span>Email</span>
+                  <strong id="customer-email"></strong>
+                </div>
+              </div>
 
-                  <strong> customer@example.com </strong>
+              <div
+  class="account-profile__item"
+  id="referrer-info"
+  hidden
+>
+  <span>Referred by</span>
+
+  <strong id="customer-referrer"></strong>
+</div>
+
+              <div class="profile-edit" id="profile-edit">
+                <div class="profile-edit__inner">
+                  <form id="profile-form">
+                    <label class="auth__field">
+                      <span>First name</span>
+
+                      <input type="text" id="profile-first-name" required />
+                    </label>
+
+                    <label class="auth__field">
+                      <span>Last name</span>
+
+                      <input type="text" id="profile-last-name" required />
+                    </label>
+
+                    <label class="auth__field">
+                      <span>Email</span>
+
+                      <input type="email" id="profile-email" required />
+                    </label>
+
+                    <div class="profile-edit__actions">
+                      <button type="submit" class="profile-edit__save">
+                        Save changes
+                      </button>
+
+                      <button
+                        type="button"
+                        class="profile-edit__cancel"
+                        id="cancel-profile-edit"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </section>
 
             <!-- ORDERS -->
 
-            <section class="account-card">
-              <div class="account-card__header">
-                <div>
-                  <p class="account-card__eyebrow">Orders</p>
+           <section class="account-card">
+  <div class="account-card__header">
+    <div>
+      <p class="account-card__eyebrow">Orders</p>
 
-                  <h2>Order history</h2>
-                </div>
+      <h2>Order history</h2>
+    </div>
 
-                <a class="account-card__action" href="#"> View all </a>
-              </div>
+    <a href="orders.html" class="account-card__link">
+      View all
+    </a>
+  </div>
 
-              <div class="account-order">
-                <div>
-                  <strong> #NEST-1048 </strong>
-
-                  <span> August 20, 2026 </span>
-                </div>
-
-                <div>
-                  <strong> $74.98 </strong>
-
-                  <span class="account-order__status"> Delivered </span>
-                </div>
-              </div>
-
-              <div class="account-order">
-                <div>
-                  <strong> #NEST-1032 </strong>
-
-                  <span> August 12, 2026 </span>
-                </div>
-
-                <div>
-                  <strong> $49.99 </strong>
-
-                  <span class="account-order__status"> Shipped </span>
-                </div>
-              </div>
-            </section>
-
+  <div
+    class="order-history"
+    id="order-history"
+  ></div>
+</section>
             <!-- REWARDS -->
 
             <section class="account-card account-card--full" id="rewards">
@@ -308,7 +349,7 @@
               </p>
 
               <div class="referral__link">
-                <span id="referral-link"> nestora.com/?ref=VLAD123 </span>
+                <span id="referral-link"></span>
 
                 <button type="button" id="copy-referral">Copy</button>
               </div>
@@ -321,59 +362,19 @@
             <!-- POINT HISTORY -->
 
             <section class="account-card account-card--full">
-              <div class="account-card__header">
-                <div>
-                  <p class="account-card__eyebrow">Activity</p>
+  <div class="account-card__header">
+    <div>
+      <p class="account-card__eyebrow">Activity</p>
 
-                  <h2>Points history</h2>
-                </div>
-              </div>
+      <h2>Points history</h2>
+    </div>
+  </div>
 
-              <div class="points-history">
-                <div class="points-history__item">
-                  <div>
-                    <strong> Account created </strong>
-
-                    <span> August 1, 2026 </span>
-                  </div>
-
-                  <b> +500 </b>
-                </div>
-
-                <div class="points-history__item">
-                  <div>
-                    <strong> First order </strong>
-
-                    <span> August 5, 2026 </span>
-                  </div>
-
-                  <b> +1,000 </b>
-                </div>
-
-                <div class="points-history__item">
-                  <div>
-                    <strong> Product review </strong>
-
-                    <span> August 10, 2026 </span>
-                  </div>
-
-                  <b> +200 </b>
-                </div>
-
-                <div class="points-history__item points-history__item--spent">
-                  <div>
-                    <strong> $25 reward </strong>
-
-                    <span> August 15, 2026 </span>
-                  </div>
-
-                  <b> -2,500 </b>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </section>
+  <div
+    class="points-history"
+    id="points-history"
+  ></div>
+</section>
     </main>
 
     <!-- FOOTER -->
@@ -437,8 +438,9 @@
       </div>
     </footer>
     <!-- FOOTER / -->
-
+    <script src="./js/menu.js"></script>
     <script src="js/account.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/referral.js"></script>
   </body>
 </html>

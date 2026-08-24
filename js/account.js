@@ -13,11 +13,24 @@ if (!isLoggedIn) {
 ========================================= */
 
 const pointsValue = document.querySelector('#points-value');
+
 const rewardValue = document.querySelector('#reward-value');
+
+const customerName = document.querySelector('#customer-name');
+
+const profileName = document.querySelector('#profile-name');
+
+const customerEmail = document.querySelector('#customer-email');
+
+const customerReferrer = document.querySelector('#customer-referrer');
+
+const referrerInfo = document.querySelector('#referrer-info');
 
 const rewardButtons = document.querySelectorAll('[data-reward]');
 
-const pointsHistory = document.querySelector('.points-history');
+const pointsHistoryContainer = document.querySelector('#points-history');
+
+const orderHistory = document.querySelector('#order-history');
 
 const logoutButton = document.querySelector('#logout-button');
 
@@ -28,10 +41,191 @@ const referralLink = document.querySelector('#referral-link');
 const referralCopied = document.querySelector('#referral-copied');
 
 /* =========================================
+   EDIT PROFILE ELEMENTS
+========================================= */
+
+const editProfileButton = document.querySelector('#edit-profile-button');
+
+const profileEdit = document.querySelector('#profile-edit');
+
+const profileForm = document.querySelector('#profile-form');
+
+const cancelProfileEdit = document.querySelector('#cancel-profile-edit');
+
+const profileFirstName = document.querySelector('#profile-first-name');
+
+const profileLastName = document.querySelector('#profile-last-name');
+
+const profileEmail = document.querySelector('#profile-email');
+
+/* =========================================
+   CUSTOMER DATA
+========================================= */
+
+const savedFirstName = localStorage.getItem('nestora_customer_first_name');
+
+const savedEmail = localStorage.getItem('nestora_customer_email');
+
+const savedReferralCode = localStorage.getItem('nestora_referral_code');
+
+const savedReferrer = localStorage.getItem('nestora_customer_referrer');
+
+/* =========================================
+   CUSTOMER NAME
+========================================= */
+
+if (savedFirstName) {
+  if (customerName) {
+    customerName.textContent = savedFirstName;
+  }
+
+  if (profileName) {
+    profileName.textContent = savedFirstName;
+  }
+}
+
+/* =========================================
+   CUSTOMER EMAIL
+========================================= */
+
+if (savedEmail && customerEmail) {
+  customerEmail.textContent = savedEmail;
+}
+
+/* =========================================
+   REFERRAL CODE
+========================================= */
+
+if (savedReferralCode && referralLink) {
+  referralLink.textContent = `nestora.com/?ref=${savedReferralCode}`;
+}
+
+/* =========================================
+   REFERRED BY
+========================================= */
+
+if (savedReferrer && customerReferrer && referrerInfo) {
+  customerReferrer.textContent = savedReferrer;
+
+  referrerInfo.hidden = false;
+}
+
+/* =========================================
+   EDIT PROFILE
+========================================= */
+
+if (editProfileButton && profileEdit) {
+  editProfileButton.addEventListener('click', () => {
+    if (profileFirstName) {
+      profileFirstName.value =
+        localStorage.getItem('nestora_customer_first_name') || '';
+    }
+
+    if (profileLastName) {
+      profileLastName.value =
+        localStorage.getItem('nestora_customer_last_name') || '';
+    }
+
+    if (profileEmail) {
+      profileEmail.value = localStorage.getItem('nestora_customer_email') || '';
+    }
+
+    profileEdit.classList.add('is-open');
+  });
+}
+
+/* =========================================
+   CANCEL PROFILE EDIT
+========================================= */
+
+if (cancelProfileEdit && profileEdit) {
+  cancelProfileEdit.addEventListener('click', () => {
+    profileEdit.classList.remove('is-open');
+  });
+}
+
+/* =========================================
+   SAVE PROFILE
+========================================= */
+
+if (profileForm && profileEdit) {
+  profileForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const firstName = profileFirstName ? profileFirstName.value.trim() : '';
+
+    const lastName = profileLastName ? profileLastName.value.trim() : '';
+
+    const email = profileEmail ? profileEmail.value.trim().toLowerCase() : '';
+
+    if (!firstName || !lastName || !email) {
+      return;
+    }
+
+    /* Save */
+
+    localStorage.setItem('nestora_customer_first_name', firstName);
+
+    localStorage.setItem('nestora_customer_last_name', lastName);
+
+    localStorage.setItem('nestora_customer_email', email);
+
+    /* Update account */
+
+    if (customerName) {
+      customerName.textContent = firstName;
+    }
+
+    if (profileName) {
+      profileName.textContent = firstName;
+    }
+
+    if (customerEmail) {
+      customerEmail.textContent = email;
+    }
+
+    profileEdit.classList.remove('is-open');
+  });
+}
+
+/* =========================================
    POINTS
 ========================================= */
 
-let points = 4820;
+let points = Number(localStorage.getItem('nestora_points'));
+
+if (!Number.isFinite(points)) {
+  points = 4820;
+}
+
+/* =========================================
+   POINTS HISTORY DATA
+========================================= */
+
+let pointsHistoryData = [];
+
+try {
+  pointsHistoryData =
+    JSON.parse(localStorage.getItem('nestora_points_history')) || [];
+} catch (error) {
+  console.error('Failed to load points history:', error);
+
+  pointsHistoryData = [];
+}
+
+/* =========================================
+   ORDER DATA
+========================================= */
+
+let orders = [];
+
+try {
+  orders = JSON.parse(localStorage.getItem('nestora_orders')) || [];
+} catch (error) {
+  console.error('Failed to load orders:', error);
+
+  orders = [];
+}
 
 /* =========================================
    UPDATE ACCOUNT
@@ -43,10 +237,211 @@ function updateAccount() {
   }
 
   if (rewardValue) {
-    const dollars = points / 100;
+    const rewardDollars = points / 100;
 
-    rewardValue.textContent = `$${dollars.toFixed(2)}`;
+    rewardValue.textContent = `$${rewardDollars.toFixed(2)}`;
   }
+
+  localStorage.setItem('nestora_points', points.toString());
+}
+
+/* =========================================
+   FORMAT DATE
+========================================= */
+
+function formatDate(date) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return '';
+  }
+
+  return parsedDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+/* =========================================
+   POINTS HISTORY
+========================================= */
+
+function renderPointsHistory() {
+  if (!pointsHistoryContainer) {
+    return;
+  }
+
+  pointsHistoryContainer.innerHTML = '';
+
+  if (pointsHistoryData.length === 0) {
+    pointsHistoryContainer.innerHTML = `
+      <p class="points-history__empty">
+        No points activity yet.
+      </p>
+    `;
+
+    return;
+  }
+
+  pointsHistoryData
+    .slice()
+    .reverse()
+    .forEach(item => {
+      const historyItem = document.createElement('div');
+
+      historyItem.className = 'points-history__item';
+
+      const amount = Number(item.amount);
+
+      if (amount < 0) {
+        historyItem.classList.add('points-history__item--spent');
+      }
+
+      const formattedAmount =
+        amount > 0 ? `+${amount.toLocaleString()}` : amount.toLocaleString();
+
+      historyItem.innerHTML = `
+        <div>
+          <strong>
+            ${item.title}
+          </strong>
+
+          <span>
+            ${formatDate(item.date)}
+          </span>
+        </div>
+
+        <b>
+          ${formattedAmount}
+        </b>
+      `;
+
+      pointsHistoryContainer.appendChild(historyItem);
+    });
+}
+
+/* =========================================
+   ADD POINT HISTORY
+========================================= */
+
+function addHistoryItem(title, amount) {
+  const numericAmount = Number(amount);
+
+  if (!Number.isFinite(numericAmount)) {
+    return;
+  }
+
+  pointsHistoryData.push({
+    title: title,
+
+    amount: numericAmount,
+
+    date: new Date().toISOString(),
+  });
+
+  localStorage.setItem(
+    'nestora_points_history',
+    JSON.stringify(pointsHistoryData)
+  );
+
+  renderPointsHistory();
+}
+
+/* =========================================
+   ORDER HISTORY
+========================================= */
+
+function renderOrders() {
+  if (!orderHistory) {
+    return;
+  }
+
+  orderHistory.innerHTML = '';
+
+  if (orders.length === 0) {
+    orderHistory.innerHTML = `
+      <div class="order-history__empty">
+
+        <p>No orders yet.</p>
+
+        <a href="shop.html">
+          Start shopping →
+        </a>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  orders
+    .slice()
+    .reverse()
+    .slice(0, 3)
+    .forEach(order => {
+      const orderItem = document.createElement('div');
+
+      orderItem.className = 'order-history__item';
+
+      const total = Number(order.total);
+
+      orderItem.innerHTML = `
+        <div class="order-history__info">
+
+          <strong>
+            #${order.id}
+          </strong>
+
+          <span>
+            ${formatDate(order.date)}
+          </span>
+
+        </div>
+
+        <div class="order-history__meta">
+
+          <strong>
+            $${total.toFixed(2)}
+          </strong>
+
+          <span>
+            ${order.status}
+          </span>
+
+        </div>
+      `;
+
+      orderHistory.appendChild(orderItem);
+    });
+}
+
+/* =========================================
+   ADD ORDER
+========================================= */
+
+function addOrder(total, status = 'Processing') {
+  const numericTotal = Number(total);
+
+  if (!Number.isFinite(numericTotal)) {
+    return;
+  }
+
+  const order = {
+    id: `NEST-${Math.floor(1000 + Math.random() * 9000)}`,
+
+    date: new Date().toISOString(),
+
+    total: numericTotal,
+
+    status: status,
+  };
+
+  orders.push(order);
+
+  localStorage.setItem('nestora_orders', JSON.stringify(orders));
+
+  renderOrders();
 }
 
 /* =========================================
@@ -57,9 +452,11 @@ rewardButtons.forEach(button => {
   button.addEventListener('click', () => {
     const requiredPoints = Number(button.dataset.reward);
 
-    const rewardAmount = requiredPoints / 100;
+    if (!Number.isFinite(requiredPoints)) {
+      return;
+    }
 
-    /* Not enough points */
+    const rewardAmount = requiredPoints / 100;
 
     if (points < requiredPoints) {
       const missingPoints = requiredPoints - points;
@@ -69,57 +466,21 @@ rewardButtons.forEach(button => {
       return;
     }
 
-    /* Confirm reward */
-
-    const confirmRedeem = confirm(
+    const confirmed = confirm(
       `Redeem $${rewardAmount} for ${requiredPoints.toLocaleString()} points?`
     );
 
-    if (!confirmRedeem) {
+    if (!confirmed) {
       return;
     }
 
-    /* Remove points */
-
     points -= requiredPoints;
-
-    /* Update UI */
 
     updateAccount();
 
-    /* Add history */
-
-    addHistoryItem(
-      `$${rewardAmount} reward`,
-      `-${requiredPoints.toLocaleString()}`
-    );
+    addHistoryItem(`$${rewardAmount} reward`, -requiredPoints);
   });
 });
-
-/* =========================================
-   ADD POINT HISTORY
-========================================= */
-
-function addHistoryItem(title, amount) {
-  if (!pointsHistory) {
-    return;
-  }
-
-  const item = document.createElement('div');
-
-  item.className = 'points-history__item points-history__item--spent';
-
-  item.innerHTML = `
-    <div>
-      <strong>${title}</strong>
-      <span>Just now</span>
-    </div>
-
-    <b>${amount}</b>
-  `;
-
-  pointsHistory.prepend(item);
-}
 
 /* =========================================
    COPY REFERRAL LINK
@@ -128,6 +489,10 @@ function addHistoryItem(title, amount) {
 if (copyReferralButton && referralLink && referralCopied) {
   copyReferralButton.addEventListener('click', async () => {
     const link = referralLink.textContent.trim();
+
+    if (!link) {
+      return;
+    }
 
     try {
       await navigator.clipboard.writeText(link);
@@ -155,14 +520,16 @@ if (logoutButton) {
   logoutButton.addEventListener('click', () => {
     localStorage.removeItem('nestora_logged_in');
 
-    localStorage.removeItem('nestora_customer_email');
-
     window.location.href = 'login.html';
   });
 }
 
 /* =========================================
-   INITIAL ACCOUNT STATE
+   INITIALIZE
 ========================================= */
 
 updateAccount();
+
+renderPointsHistory();
+
+renderOrders();

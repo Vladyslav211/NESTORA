@@ -1,69 +1,160 @@
+/* =========================================
+   REGISTER FORM
+========================================= */
+
 const registerForm = document.querySelector('#register-form');
 
 const registerMessage = document.querySelector('#register-message');
 
-registerForm.addEventListener('submit', event => {
-  event.preventDefault();
+/* =========================================
+   SUBMIT
+========================================= */
 
-  const firstName = document.querySelector('#register-first-name').value.trim();
+if (registerForm) {
+  registerForm.addEventListener('submit', event => {
+    event.preventDefault();
 
-  const lastName = document.querySelector('#register-last-name').value.trim();
+    /* =====================================
+         GET FORM VALUES
+      ===================================== */
 
-  const email = document.querySelector('#register-email').value.trim();
+    const firstName = document
+      .querySelector('#register-first-name')
+      .value.trim();
 
-  const password = document.querySelector('#register-password').value.trim();
+    const lastName = document.querySelector('#register-last-name').value.trim();
 
-  const terms = document.querySelector('#register-terms').checked;
+    const email = document
+      .querySelector('#register-email')
+      .value.trim()
+      .toLowerCase();
 
-  /* ================================
-     VALIDATION
-  ================================= */
+    const password = document.querySelector('#register-password').value.trim();
 
-  if (!firstName || !lastName || !email || !password) {
-    registerMessage.textContent = 'Please complete all fields.';
+    const terms = document.querySelector('#register-terms').checked;
 
-    registerMessage.hidden = false;
+    /* =====================================
+         VALIDATION
+      ===================================== */
 
-    return;
-  }
+    if (!firstName || !lastName || !email || !password) {
+      registerMessage.textContent = 'Please complete all fields.';
 
-  if (password.length < 6) {
-    registerMessage.textContent =
-      'Password must contain at least 6 characters.';
+      registerMessage.hidden = false;
 
-    registerMessage.hidden = false;
+      return;
+    }
 
-    return;
-  }
+    if (password.length < 6) {
+      registerMessage.textContent =
+        'Password must contain at least 6 characters.';
 
-  if (!terms) {
-    registerMessage.textContent =
-      'Please accept the Terms of Service and Privacy Policy.';
+      registerMessage.hidden = false;
 
-    registerMessage.hidden = false;
+      return;
+    }
 
-    return;
-  }
+    if (!terms) {
+      registerMessage.textContent =
+        'Please accept the Terms of Service and Privacy Policy.';
 
-  /* ================================
-     FRONTEND DEMO
-  ================================= */
+      registerMessage.hidden = false;
 
-  localStorage.setItem('nestora_logged_in', 'true');
+      return;
+    }
 
-  localStorage.setItem('nestora_customer_email', email);
+    /* =====================================
+         GET REFERRER
+      ===================================== */
 
-  localStorage.setItem('nestora_customer_first_name', firstName);
+    const referrer = localStorage.getItem('nestora_referrer');
 
-  localStorage.setItem('nestora_customer_last_name', lastName);
+    /* =====================================
+         CREATE CUSTOMER REFERRAL CODE
+      ===================================== */
 
-  /* New customer bonus */
+    const referralCode = `${firstName
+      .replace(/\s+/g, '')
+      .toUpperCase()
+      .slice(0, 6)}-${Math.random()
+      .toString(36)
+      .substring(2, 7)
+      .toUpperCase()}`;
 
-  localStorage.setItem('nestora_points', '500');
+    /* =====================================
+         NORMALIZE REFERRAL DATA
+      ===================================== */
 
-  /* ================================
-     REDIRECT
-  ================================= */
+    const normalizedReferrer = referrer ? referrer.trim().toUpperCase() : null;
 
-  window.location.href = 'account.html';
-});
+    const normalizedReferralCode = referralCode.trim().toUpperCase();
+
+    /* =====================================
+         PREVENT SELF REFERRAL
+      ===================================== */
+
+    const validReferrer =
+      normalizedReferrer && normalizedReferrer !== normalizedReferralCode
+        ? normalizedReferrer
+        : null;
+
+    /* =====================================
+         SAVE LOGIN STATE
+      ===================================== */
+
+    localStorage.setItem('nestora_logged_in', 'true');
+
+    /* =====================================
+         SAVE CUSTOMER DATA
+      ===================================== */
+
+    localStorage.setItem('nestora_customer_email', email);
+
+    localStorage.setItem('nestora_customer_first_name', firstName);
+
+    localStorage.setItem('nestora_customer_last_name', lastName);
+
+    /* =====================================
+         SAVE CUSTOMER REFERRAL CODE
+      ===================================== */
+
+    localStorage.setItem('nestora_referral_code', referralCode);
+
+    /* =====================================
+         SAVE REFERRER
+      ===================================== */
+
+    if (validReferrer) {
+      localStorage.setItem('nestora_customer_referrer', validReferrer);
+    } else {
+      localStorage.removeItem('nestora_customer_referrer');
+    }
+
+    /* =====================================
+         WELCOME BONUS
+      ===================================== */
+
+    localStorage.setItem('nestora_points', '500');
+
+    /* =====================================
+         POINTS HISTORY
+      ===================================== */
+
+    localStorage.setItem(
+      'nestora_points_history',
+      JSON.stringify([
+        {
+          title: 'Account created',
+          amount: 500,
+          date: new Date().toISOString(),
+        },
+      ])
+    );
+
+    /* =====================================
+         REDIRECT
+      ===================================== */
+
+    window.location.href = 'account.html';
+  });
+}

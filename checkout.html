@@ -21,7 +21,7 @@
         <div class="checkout__layout">
           <!-- FORM -->
 
-          <section class="checkout__form">
+          <form class="checkout__form">
             <div class="checkout__header">
               <p class="checkout__eyebrow">Secure checkout</p>
 
@@ -116,7 +116,7 @@
             >
               Place order
             </button>
-          </section>
+          </form>
 
           <!-- ORDER SUMMARY -->
 
@@ -139,6 +139,62 @@
               <span> Free </span>
             </div>
 
+            <!-- REWARDS -->
+
+            <div class="checkout__rewards">
+              <div class="checkout__rewards-header">
+                <div>
+                  <p class="checkout__rewards-eyebrow">Rewards</p>
+
+                  <h3 class="checkout__rewards-title">Use your points</h3>
+                </div>
+
+                <span id="checkout-points-balance"> 0 points </span>
+              </div>
+
+              <p class="checkout__rewards-info">
+                You can save up to 20% of your order with your points.
+              </p>
+
+              <div class="checkout__rewards-row">
+                <span> Available reward </span>
+
+                <strong id="checkout-points-value"> $0.00 </strong>
+              </div>
+
+              <button
+                type="button"
+                class="button button--primary checkout__rewards-button"
+                id="use-points"
+              >
+                Use points
+              </button>
+
+              <button
+                type="button"
+                class="button checkout__rewards-button"
+                id="remove-points"
+                hidden
+              >
+                Remove points
+              </button>
+
+              <button
+                type="button"
+                class="checkout__rewards-button"
+                id="remove-points"
+                hidden
+              >
+                Remove points
+              </button>
+
+              <p
+                class="checkout__rewards-applied"
+                id="points-applied"
+                hidden
+              ></p>
+            </div>
+
             <div class="checkout__summary-total">
               <span> Total </span>
 
@@ -148,9 +204,10 @@
         </div>
       </div>
     </main>
-
+    <script src="./js/menu.js"></script>
+    <script src="js/search.js"></script>
     <script src="js/products.js"></script>
-    <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
+    <script src="js/referral.js"></script>
   </body>
 </html>
