@@ -24,6 +24,32 @@ function getCart() {
 
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+  updateCartCount();
+}
+
+/* =========================================
+   CART COUNT
+========================================= */
+
+function getCartCount() {
+  const cart = getCart();
+
+  return cart.reduce((total, item) => {
+    return total + Number(item.quantity);
+  }, 0);
+}
+
+function updateCartCount() {
+  const cartCount = document.querySelector('#cart-count');
+
+  if (!cartCount) {
+    return;
+  }
+
+  const count = getCartCount();
+
+  cartCount.textContent = count;
 }
 
 /* =========================================
@@ -35,7 +61,9 @@ function addToCart(productId, quantity = 1) {
 
   const normalizedId = String(productId);
 
-  const existingProduct = cart.find(item => String(item.id) === normalizedId);
+  const existingProduct = cart.find(
+    item => String(item.id) === normalizedId
+  );
 
   if (existingProduct) {
     existingProduct.quantity += quantity;
@@ -58,7 +86,9 @@ function removeFromCart(productId) {
 
   const cart = getCart();
 
-  const updatedCart = cart.filter(item => String(item.id) !== normalizedId);
+  const updatedCart = cart.filter(
+    item => String(item.id) !== normalizedId
+  );
 
   saveCart(updatedCart);
 }
@@ -72,7 +102,9 @@ function updateCartQuantity(productId, quantity) {
 
   const cart = getCart();
 
-  const item = cart.find(item => String(item.id) === normalizedId);
+  const item = cart.find(
+    item => String(item.id) === normalizedId
+  );
 
   if (!item) {
     return;
@@ -87,32 +119,6 @@ function updateCartQuantity(productId, quantity) {
   item.quantity = quantity;
 
   saveCart(cart);
-}
-
-/* =========================================
-   GET CART COUNT
-========================================= */
-
-function getCartCount() {
-  const cart = getCart();
-
-  return cart.reduce((total, item) => {
-    return total + Number(item.quantity);
-  }, 0);
-}
-
-/* =========================================
-   UPDATE CART COUNT
-========================================= */
-
-function updateCartCount() {
-  const cartCount = document.querySelector('#cart-count');
-
-  if (!cartCount) {
-    return;
-  }
-
-  cartCount.textContent = getCartCount();
 }
 
 /* =========================================
@@ -131,7 +137,7 @@ function getCartSubtotal() {
       return total;
     }
 
-    return total + product.price * cartItem.quantity;
+    return total + product.price * Number(cartItem.quantity);
   }, 0);
 }
 
@@ -139,13 +145,17 @@ function getCartSubtotal() {
    CART PAGE ELEMENTS
 ========================================= */
 
-const cartItemsContainer = document.querySelector('#cart-items');
+const cartItemsContainer =
+  document.querySelector('#cart-items');
 
-const cartSubtotal = document.querySelector('#cart-subtotal');
+const cartSubtotal =
+  document.querySelector('#cart-subtotal');
 
-const cartTotal = document.querySelector('#cart-total');
+const cartTotal =
+  document.querySelector('#cart-total');
 
-const checkoutButton = document.querySelector('#checkout-button');
+const checkoutButton =
+  document.querySelector('#checkout-button');
 
 /* =========================================
    RENDER EMPTY CART
@@ -198,14 +208,14 @@ function renderEmptyCart() {
 
 function renderCart() {
   if (!cartItemsContainer) {
+    updateCartCount();
+
     return;
   }
 
   const cart = getCart();
 
-  /* =======================================
-     EMPTY CART
-  ======================================= */
+  /* EMPTY */
 
   if (cart.length === 0) {
     renderEmptyCart();
@@ -215,17 +225,12 @@ function renderCart() {
 
   let subtotal = 0;
 
-  /* =======================================
-     CREATE CART ITEMS
-  ======================================= */
-
   cartItemsContainer.innerHTML = cart
     .map(cartItem => {
       const product = products.find(
-        product => String(product.id) === String(cartItem.id)
+        product =>
+          String(product.id) === String(cartItem.id)
       );
-
-      /* PRODUCT DOES NOT EXIST */
 
       if (!product) {
         return '';
@@ -238,130 +243,100 @@ function renderCart() {
       subtotal += itemTotal;
 
       return `
-          <article
-            class="cart-item"
-          >
+        <article class="cart-item">
 
-            <div
-              class="cart-item__image"
+          <div class="cart-item__image">
+
+            <img
+              src="${product.image}"
+              alt="${product.title}"
             >
 
-              <img
-                src="${product.image}"
-                alt="${product.title}"
-              >
+          </div>
 
-            </div>
+          <div class="cart-item__content">
 
+            <span class="cart-item__category">
+              ${product.category}
+            </span>
 
-            <div
-              class="cart-item__content"
-            >
+            <h2 class="cart-item__title">
+              ${product.title}
+            </h2>
 
-              <span
-                class="cart-item__category"
-              >
-                ${product.category}
-              </span>
+            <span class="cart-item__price">
+              $${product.price.toFixed(2)}
+            </span>
 
+            <div class="cart-item__controls">
 
-              <h2
-                class="cart-item__title"
-              >
-                ${product.title}
-              </h2>
-
-
-              <span
-                class="cart-item__price"
-              >
-                $${product.price.toFixed(2)}
-              </span>
-
-
-              <div
-                class="cart-item__controls"
-              >
-
-                <div
-                  class="cart-item__quantity"
-                >
-
-                  <button
-                    type="button"
-                    data-action="decrease"
-                    data-id="${product.id}"
-                    aria-label="Decrease quantity"
-                  >
-                    −
-                  </button>
-
-
-                  <span>
-                    ${quantity}
-                  </span>
-
-
-                  <button
-                    type="button"
-                    data-action="increase"
-                    data-id="${product.id}"
-                    aria-label="Increase quantity"
-                  >
-                    +
-                  </button>
-
-                </div>
-
+              <div class="cart-item__quantity">
 
                 <button
-                  class="cart-item__remove"
                   type="button"
-                  data-action="remove"
+                  data-action="decrease"
                   data-id="${product.id}"
+                  aria-label="Decrease quantity"
                 >
-                  Remove
+                  −
+                </button>
+
+                <span>
+                  ${quantity}
+                </span>
+
+                <button
+                  type="button"
+                  data-action="increase"
+                  data-id="${product.id}"
+                  aria-label="Increase quantity"
+                >
+                  +
                 </button>
 
               </div>
 
+              <button
+                class="cart-item__remove"
+                type="button"
+                data-action="remove"
+                data-id="${product.id}"
+              >
+                Remove
+              </button>
+
             </div>
 
+          </div>
 
-            <strong
-              class="cart-item__total"
-            >
-              $${itemTotal.toFixed(2)}
-            </strong>
+          <strong class="cart-item__total">
+            $${itemTotal.toFixed(2)}
+          </strong>
 
-          </article>
-        `;
+        </article>
+      `;
     })
     .join('');
 
-  /* =======================================
-     UPDATE TOTALS
-  ======================================= */
+  /* TOTALS */
 
   if (cartSubtotal) {
-    cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+    cartSubtotal.textContent =
+      `$${subtotal.toFixed(2)}`;
   }
 
   if (cartTotal) {
-    cartTotal.textContent = `$${subtotal.toFixed(2)}`;
+    cartTotal.textContent =
+      `$${subtotal.toFixed(2)}`;
   }
 
-  /* =======================================
-     CHECKOUT BUTTON
-  ======================================= */
+  /* CHECKOUT */
 
   if (checkoutButton) {
     checkoutButton.disabled = subtotal <= 0;
   }
 
-  /* =======================================
-     CART COUNT
-  ======================================= */
+  /* COUNTER */
 
   updateCartCount();
 }
@@ -371,71 +346,72 @@ function renderCart() {
 ========================================= */
 
 if (cartItemsContainer) {
-  cartItemsContainer.addEventListener('click', event => {
-    const button = event.target.closest('button[data-action]');
+  cartItemsContainer.addEventListener(
+    'click',
+    event => {
+      const button =
+        event.target.closest('button[data-action]');
 
-    if (!button) {
-      return;
-    }
-
-    const productId = button.dataset.id;
-
-    const action = button.dataset.action;
-
-    if (!productId) {
-      return;
-    }
-
-    const cart = getCart();
-
-    const item = cart.find(item => String(item.id) === String(productId));
-
-    if (!item) {
-      return;
-    }
-
-    /* =====================================
-         INCREASE
-      ===================================== */
-
-    if (action === 'increase') {
-      item.quantity += 1;
-
-      saveCart(cart);
-
-      renderCart();
-
-      return;
-    }
-
-    /* =====================================
-         DECREASE
-      ===================================== */
-
-    if (action === 'decrease') {
-      item.quantity -= 1;
-
-      if (item.quantity <= 0) {
-        removeFromCart(productId);
-      } else {
-        saveCart(cart);
+      if (!button) {
+        return;
       }
 
-      renderCart();
+      const productId = button.dataset.id;
 
-      return;
+      const action = button.dataset.action;
+
+      if (!productId) {
+        return;
+      }
+
+      const cart = getCart();
+
+      const item = cart.find(
+        item =>
+          String(item.id) === String(productId)
+      );
+
+      if (!item) {
+        return;
+      }
+
+      /* INCREASE */
+
+      if (action === 'increase') {
+        item.quantity += 1;
+
+        saveCart(cart);
+
+        renderCart();
+
+        return;
+      }
+
+      /* DECREASE */
+
+      if (action === 'decrease') {
+        item.quantity -= 1;
+
+        if (item.quantity <= 0) {
+          removeFromCart(productId);
+        } else {
+          saveCart(cart);
+        }
+
+        renderCart();
+
+        return;
+      }
+
+      /* REMOVE */
+
+      if (action === 'remove') {
+        removeFromCart(productId);
+
+        renderCart();
+      }
     }
-
-    /* =====================================
-         REMOVE
-      ===================================== */
-
-    if (action === 'remove') {
-      removeFromCart(productId);
-
-      renderCart();
-    }
-  });
+  );
 }
 
 /* =========================================
@@ -443,19 +419,22 @@ if (cartItemsContainer) {
 ========================================= */
 
 if (checkoutButton) {
-  checkoutButton.addEventListener('click', () => {
-    const cart = getCart();
+  checkoutButton.addEventListener(
+    'click',
+    () => {
+      const cart = getCart();
 
-    if (cart.length === 0) {
-      return;
+      if (cart.length === 0) {
+        return;
+      }
+
+      window.location.href = 'checkout.html';
     }
-
-    window.location.href = 'checkout.html';
-  });
+  );
 }
 
 /* =========================================
-   INITIAL RENDER
+   INITIALIZE
 ========================================= */
 
 renderCart();

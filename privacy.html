@@ -64,11 +64,19 @@
             Search
           </button>
 
-          <a class="header__action" href="#" aria-label="Account"> Account </a>
+          
 
-          <a class="header__action" href="cart.html" aria-label="Shopping cart">
-            Cart
-          </a>
+        <a
+  class="header__action cart-link"
+  href="cart.html"
+  aria-label="Shopping cart"
+>
+  <svg class="cart-link__icon" aria-hidden="true">
+    <use href="./image/symbol-defs.svg#icon-shoping-cart"></use>
+  </svg>
+
+  <span class="cart-link__count" id="cart-count">0</span>
+</a>
         </div>
       </div>
     </header>
@@ -262,5 +270,6 @@
     </footer>
     <script src="./js/menu.js"></script>
     <script src="js/search.js"></script>
+    <script src="./js/cart.js"></script>
   </body>
 </html>
