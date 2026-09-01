@@ -1,3 +1,7 @@
+/* =========================================
+   PRODUCTS
+========================================= */
+
 const products = [
   {
     id: 1,
@@ -45,28 +49,57 @@ const products = [
   },
 ];
 
-const productsContainer = document.querySelector('#featured-products');
+/* =========================================
+   PRODUCTS CONTAINER
+========================================= */
+
+const productsContainer =
+  document.querySelector('#featured-products');
+
+/* =========================================
+   CREATE PRODUCT CARD
+========================================= */
 
 function createProductCard(product) {
   return `
     <article class="product-card">
 
-      <a href="product.html?id=${product.id}">
-        <div class="product-card__image">
+      <div class="product-card__image-wrapper">
 
-          ${
-            product.badge
-              ? `<span class="product-card__badge">${product.badge}</span>`
-              : ''
-          }
+        <a href="product.html?id=${product.id}">
+          <div class="product-card__image">
 
-          <img
-            src="${product.image}"
-            alt="${product.title}"
-          />
+            ${
+              product.badge
+                ? `
+                  <span class="product-card__badge">
+                    ${product.badge}
+                  </span>
+                `
+                : ''
+            }
 
-        </div>
-      </a>
+            <img
+              src="${product.image}"
+              alt="${product.title}"
+            />
+
+          </div>
+        </a>
+
+        <!-- WISHLIST -->
+
+        <button
+          class="product-card__wishlist"
+          type="button"
+          data-wishlist="${product.id}"
+          aria-label="Add ${product.title} to wishlist"
+          aria-pressed="false"
+        >
+          ♡
+        </button>
+
+      </div>
 
       <div class="product-card__content">
 
@@ -116,9 +149,23 @@ function createProductCard(product) {
   `;
 }
 
-function renderProducts(products) {
-  productsContainer.innerHTML = products.map(createProductCard).join('');
+/* =========================================
+   RENDER PRODUCTS
+========================================= */
+
+function renderProducts(productsList) {
+  if (!productsContainer) {
+    return;
+  }
+
+  productsContainer.innerHTML = productsList
+    .map(createProductCard)
+    .join('');
 }
+
+/* =========================================
+   INITIALIZE
+========================================= */
 
 if (productsContainer) {
   renderProducts(products);

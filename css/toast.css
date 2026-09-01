@@ -1,0 +1,101 @@
+/* =========================================
+   TOAST
+========================================= */
+
+.toast-container {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  pointer-events: none;
+}
+
+/* =========================================
+   TOAST
+========================================= */
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 240px;
+  max-width: 340px;
+
+  padding: 14px 18px;
+
+  background: #111;
+  color: #fff;
+
+  font-size: 13px;
+
+  opacity: 0;
+  transform: translateX(20px);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =========================================
+   ICON
+========================================= */
+
+.toast__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 18px;
+  height: 18px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.toast__message {
+  line-height: 1.4;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.toast--error {
+  background: #111;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+  .toast-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .toast {
+    width: 100%;
+    max-width: none;
+  }
+}

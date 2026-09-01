@@ -3,13 +3,9 @@
 ========================================= */
 
 const checkoutProducts = document.querySelector('#checkout-products');
-
 const checkoutSubtotal = document.querySelector('#checkout-subtotal');
-
 const checkoutTotal = document.querySelector('#checkout-total');
-
 const checkoutForm = document.querySelector('.checkout__form');
-
 const placeOrderButton = document.querySelector('#place-order');
 
 /* =========================================
@@ -20,61 +16,49 @@ const checkoutPointsBalance = document.querySelector(
   '#checkout-points-balance'
 );
 
-const checkoutPointsValue = document.querySelector('#checkout-points-value');
+const checkoutPointsValue = document.querySelector(
+  '#checkout-points-value'
+);
 
 const usePointsButton = document.querySelector('#use-points');
-
 const removePointsButton = document.querySelector('#remove-points');
-
 const pointsApplied = document.querySelector('#points-applied');
+
+/* =========================================
+   REFERRAL ELEMENTS
+========================================= */
+
+const referralDiscountRow = document.querySelector(
+  '#referral-discount-row'
+);
+
+const referralDiscountElement = document.querySelector(
+  '#referral-discount'
+);
 
 /* =========================================
    FORM FIELDS
 ========================================= */
 
 const emailInput = document.querySelector('#email');
-
 const firstNameInput = document.querySelector('#first-name');
-
 const lastNameInput = document.querySelector('#last-name');
-
 const addressInput = document.querySelector('#address');
-
 const cityInput = document.querySelector('#city');
-
 const zipInput = document.querySelector('#zip');
-
 const countryInput = document.querySelector('#country');
 
 /* =========================================
-   POINTS USED
-========================================= */
-
-let pointsUsed = 0;
-
-/* =========================================
-   CART KEY
+   STORAGE KEYS
 ========================================= */
 
 const CART_KEY = 'nestora-cart';
-
-/* =========================================
-   POINTS KEY
-========================================= */
-
 const POINTS_KEY = 'nestora_points';
-
-/* =========================================
-   POINTS HISTORY KEY
-========================================= */
-
 const POINTS_HISTORY_KEY = 'nestora_points_history';
-
-/* =========================================
-   ORDERS KEY
-========================================= */
-
 const ORDERS_KEY = 'nestora_orders';
+
+const REFERRER_KEY = 'nestora_referrer';
+const REFERRAL_USED_KEY = 'nestora_referral_used';
 
 /* =========================================
    LOYALTY SETTINGS
@@ -87,14 +71,31 @@ const ORDERS_KEY = 'nestora_orders';
   for maximum 20% of order.
 
   Customer earns:
-  $1 spent = 5 points
+  $1 spent = 10 points
 */
 
 const POINTS_PER_DOLLAR = 100;
-
 const MAX_POINTS_PERCENT = 0.2;
+const EARN_POINTS_PER_DOLLAR = 10;
 
-const EARN_POINTS_PER_DOLLAR = 5;
+/* =========================================
+   REFERRAL SETTINGS
+========================================= */
+
+/*
+  Referral discount:
+  $10 off first order.
+
+  Referral can only be used once.
+*/
+
+const REFERRAL_DISCOUNT = 10;
+
+/* =========================================
+   POINTS USED
+========================================= */
+
+let pointsUsed = 0;
 
 /* =========================================
    GET CART
@@ -155,38 +156,78 @@ function getCheckoutSubtotal() {
 }
 
 /* =========================================
+   GET REFERRAL DISCOUNT
+========================================= */
+
+function getReferralDiscount() {
+  const subtotal = getCheckoutSubtotal();
+
+  const referrer = localStorage.getItem(REFERRER_KEY);
+
+  const referralUsed =
+    localStorage.getItem(REFERRAL_USED_KEY) === 'true';
+
+  /*
+    No referral.
+  */
+
+  if (!referrer) {
+    return 0;
+  }
+
+  /*
+    Referral was already used.
+  */
+
+  if (referralUsed) {
+    return 0;
+  }
+
+  /*
+    Do not allow discount
+    greater than subtotal.
+  */
+
+  return Math.min(REFERRAL_DISCOUNT, subtotal);
+}
+
+/* =========================================
    GET MAX USABLE POINTS
 ========================================= */
 
 function getMaximumUsablePoints() {
   const subtotal = getCheckoutSubtotal();
 
+  const referralDiscount = getReferralDiscount();
+
+  const amountAfterReferral = Math.max(
+    0,
+    subtotal - referralDiscount
+  );
+
   const availablePoints = getCustomerPoints();
 
-  if (subtotal <= 0 || availablePoints <= 0) {
+  if (amountAfterReferral <= 0 || availablePoints <= 0) {
     return 0;
   }
 
   /*
-    Maximum discount = 20% of order.
+    Maximum points discount = 20%
+    of the amount remaining
+    after referral discount.
   */
 
-  const maximumDiscount = subtotal * MAX_POINTS_PERCENT;
+  const maximumDiscount =
+    amountAfterReferral * MAX_POINTS_PERCENT;
 
-  /*
-    Convert discount to points.
+  const maximumPointsByOrder = Math.floor(
+    maximumDiscount * POINTS_PER_DOLLAR
+  );
 
-    $1 = 100 points
-  */
-
-  const maximumPointsByOrder = Math.floor(maximumDiscount * POINTS_PER_DOLLAR);
-
-  /*
-    Customer cannot use more points
-    than they actually own.
-  */
-
-  return Math.min(availablePoints, maximumPointsByOrder);
+  return Math.min(
+    availablePoints,
+    maximumPointsByOrder
+  );
 }
 
 /* =========================================
@@ -198,15 +239,20 @@ function getPointsDiscount() {
 }
 
 /* =========================================
-   GET FINAL TOTAL
+   GET CHECKOUT TOTAL
 ========================================= */
 
 function getCheckoutTotal() {
   const subtotal = getCheckoutSubtotal();
 
-  const discount = getPointsDiscount();
+  const referralDiscount = getReferralDiscount();
 
-  return Math.max(0, subtotal - discount);
+  const pointsDiscount = getPointsDiscount();
+
+  return Math.max(
+    0,
+    subtotal - referralDiscount - pointsDiscount
+  );
 }
 
 /* =========================================
@@ -216,16 +262,49 @@ function getCheckoutTotal() {
 function updateCheckoutTotals() {
   const subtotal = getCheckoutSubtotal();
 
-  const discount = getPointsDiscount();
+  const referralDiscount = getReferralDiscount();
 
-  const total = Math.max(0, subtotal - discount);
+  const pointsDiscount = getPointsDiscount();
+
+  const total = Math.max(
+    0,
+    subtotal - referralDiscount - pointsDiscount
+  );
+
+  /* =======================================
+     SUBTOTAL
+  ======================================= */
 
   if (checkoutSubtotal) {
-    checkoutSubtotal.textContent = formatMoney(subtotal);
+    checkoutSubtotal.textContent =
+      formatMoney(subtotal);
   }
 
+  /* =======================================
+     REFERRAL DISCOUNT
+  ======================================= */
+
+  if (referralDiscountRow && referralDiscountElement) {
+    if (referralDiscount > 0) {
+      referralDiscountRow.hidden = false;
+
+      referralDiscountElement.textContent =
+        `-${formatMoney(referralDiscount)}`;
+    } else {
+      referralDiscountRow.hidden = true;
+
+      referralDiscountElement.textContent =
+        '-$0.00';
+    }
+  }
+
+  /* =======================================
+     TOTAL
+  ======================================= */
+
   if (checkoutTotal) {
-    checkoutTotal.textContent = formatMoney(total);
+    checkoutTotal.textContent =
+      formatMoney(total);
   }
 }
 
@@ -236,16 +315,19 @@ function updateCheckoutTotals() {
 function updateRewardsUI() {
   const availablePoints = getCustomerPoints();
 
-  const maximumUsablePoints = getMaximumUsablePoints();
+  const maximumUsablePoints =
+    getMaximumUsablePoints();
 
-  const maximumUsableDiscount = maximumUsablePoints / POINTS_PER_DOLLAR;
+  const maximumUsableDiscount =
+    maximumUsablePoints / POINTS_PER_DOLLAR;
 
   /* =======================================
      BALANCE
   ======================================= */
 
   if (checkoutPointsBalance) {
-    checkoutPointsBalance.textContent = `${availablePoints.toLocaleString()} points`;
+    checkoutPointsBalance.textContent =
+      `${availablePoints.toLocaleString()} points`;
   }
 
   /* =======================================
@@ -253,7 +335,8 @@ function updateRewardsUI() {
   ======================================= */
 
   if (checkoutPointsValue) {
-    checkoutPointsValue.textContent = formatMoney(maximumUsableDiscount);
+    checkoutPointsValue.textContent =
+      formatMoney(maximumUsableDiscount);
   }
 
   /* =======================================
@@ -261,7 +344,9 @@ function updateRewardsUI() {
   ======================================= */
 
   if (usePointsButton) {
-    usePointsButton.hidden = pointsUsed > 0 || maximumUsablePoints <= 0;
+    usePointsButton.hidden =
+      pointsUsed > 0 ||
+      maximumUsablePoints <= 0;
   }
 
   /* =======================================
@@ -269,7 +354,8 @@ function updateRewardsUI() {
   ======================================= */
 
   if (removePointsButton) {
-    removePointsButton.hidden = pointsUsed <= 0;
+    removePointsButton.hidden =
+      pointsUsed <= 0;
   }
 
   /* =======================================
@@ -278,13 +364,15 @@ function updateRewardsUI() {
 
   if (pointsApplied) {
     if (pointsUsed > 0) {
-      const discount = getPointsDiscount();
+      const discount =
+        getPointsDiscount();
 
       pointsApplied.hidden = false;
 
-      pointsApplied.textContent = `${pointsUsed.toLocaleString()} points applied — ${formatMoney(
-        discount
-      )} off`;
+      pointsApplied.textContent =
+        `${pointsUsed.toLocaleString()} points applied — ${formatMoney(
+          discount
+        )} off`;
     } else {
       pointsApplied.hidden = true;
 
@@ -298,7 +386,8 @@ function updateRewardsUI() {
 ========================================= */
 
 function applyPoints() {
-  const maximumUsablePoints = getMaximumUsablePoints();
+  const maximumUsablePoints =
+    getMaximumUsablePoints();
 
   if (maximumUsablePoints <= 0) {
     return;
@@ -307,7 +396,6 @@ function applyPoints() {
   pointsUsed = maximumUsablePoints;
 
   updateCheckoutTotals();
-
   updateRewardsUI();
 }
 
@@ -319,7 +407,6 @@ function removePoints() {
   pointsUsed = 0;
 
   updateCheckoutTotals();
-
   updateRewardsUI();
 }
 
@@ -328,11 +415,17 @@ function removePoints() {
 ========================================= */
 
 if (usePointsButton) {
-  usePointsButton.addEventListener('click', applyPoints);
+  usePointsButton.addEventListener(
+    'click',
+    applyPoints
+  );
 }
 
 if (removePointsButton) {
-  removePointsButton.addEventListener('click', removePoints);
+  removePointsButton.addEventListener(
+    'click',
+    removePoints
+  );
 }
 
 /* =========================================
@@ -366,11 +459,17 @@ function renderCheckout() {
     `;
 
     if (checkoutSubtotal) {
-      checkoutSubtotal.textContent = '$0.00';
+      checkoutSubtotal.textContent =
+        '$0.00';
     }
 
     if (checkoutTotal) {
-      checkoutTotal.textContent = '$0.00';
+      checkoutTotal.textContent =
+        '$0.00';
+    }
+
+    if (referralDiscountRow) {
+      referralDiscountRow.hidden = true;
     }
 
     if (placeOrderButton) {
@@ -389,16 +488,20 @@ function renderCheckout() {
   checkoutProducts.innerHTML = cart
     .map(cartItem => {
       const product = products.find(
-        product => String(product.id) === String(cartItem.id)
+        product =>
+          String(product.id) ===
+          String(cartItem.id)
       );
 
       if (!product) {
         return '';
       }
 
-      const quantity = Number(cartItem.quantity);
+      const quantity =
+        Number(cartItem.quantity);
 
-      const itemTotal = product.price * quantity;
+      const itemTotal =
+        product.price * quantity;
 
       return `
         <div class="checkout__product">
@@ -459,11 +562,20 @@ function renderCheckout() {
 ========================================= */
 
 function loadCustomerData() {
-  const savedEmail = localStorage.getItem('nestora_customer_email');
+  const savedEmail =
+    localStorage.getItem(
+      'nestora_customer_email'
+    );
 
-  const savedFirstName = localStorage.getItem('nestora_customer_first_name');
+  const savedFirstName =
+    localStorage.getItem(
+      'nestora_customer_first_name'
+    );
 
-  const savedLastName = localStorage.getItem('nestora_customer_last_name');
+  const savedLastName =
+    localStorage.getItem(
+      'nestora_customer_last_name'
+    );
 
   if (savedEmail && emailInput) {
     emailInput.value = savedEmail;
@@ -484,9 +596,16 @@ function loadCustomerData() {
 
 function getOrders() {
   try {
-    return JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+    return (
+      JSON.parse(
+        localStorage.getItem(ORDERS_KEY)
+      ) || []
+    );
   } catch (error) {
-    console.error('Failed to load orders:', error);
+    console.error(
+      'Failed to load orders:',
+      error
+    );
 
     return [];
   }
@@ -497,7 +616,10 @@ function getOrders() {
 ========================================= */
 
 function saveOrders(orders) {
-  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  localStorage.setItem(
+    ORDERS_KEY,
+    JSON.stringify(orders)
+  );
 }
 
 /* =========================================
@@ -505,7 +627,9 @@ function saveOrders(orders) {
 ========================================= */
 
 function generateOrderId() {
-  return `NEST-${Math.floor(1000 + Math.random() * 9000)}`;
+  return `NEST-${Math.floor(
+    1000 + Math.random() * 9000
+  )}`;
 }
 
 /* =========================================
@@ -515,11 +639,21 @@ function generateOrderId() {
 function createOrder() {
   const cart = getCheckoutCart();
 
-  const subtotal = getCheckoutSubtotal();
+  const subtotal =
+    getCheckoutSubtotal();
 
-  const pointsDiscount = getPointsDiscount();
+  const referralDiscount =
+    getReferralDiscount();
 
-  const total = Math.max(0, subtotal - pointsDiscount);
+  const pointsDiscount =
+    getPointsDiscount();
+
+  const total = Math.max(
+    0,
+    subtotal -
+      referralDiscount -
+      pointsDiscount
+  );
 
   return {
     id: generateOrderId(),
@@ -532,32 +666,53 @@ function createOrder() {
 
     shipping: 0,
 
-    pointsUsed: pointsUsed,
+    referralDiscount:
+      referralDiscount,
 
-    pointsDiscount: pointsDiscount,
+    pointsUsed:
+      pointsUsed,
+
+    pointsDiscount:
+      pointsDiscount,
 
     total: total,
 
     customer: {
-      email: emailInput ? emailInput.value.trim() : '',
+      email: emailInput
+        ? emailInput.value.trim()
+        : '',
 
-      firstName: firstNameInput ? firstNameInput.value.trim() : '',
+      firstName: firstNameInput
+        ? firstNameInput.value.trim()
+        : '',
 
-      lastName: lastNameInput ? lastNameInput.value.trim() : '',
+      lastName: lastNameInput
+        ? lastNameInput.value.trim()
+        : '',
 
-      address: addressInput ? addressInput.value.trim() : '',
+      address: addressInput
+        ? addressInput.value.trim()
+        : '',
 
-      city: cityInput ? cityInput.value.trim() : '',
+      city: cityInput
+        ? cityInput.value.trim()
+        : '',
 
-      zip: zipInput ? zipInput.value.trim() : '',
+      zip: zipInput
+        ? zipInput.value.trim()
+        : '',
 
-      country: countryInput ? countryInput.value : '',
+      country: countryInput
+        ? countryInput.value
+        : '',
     },
 
     items: cart
       .map(cartItem => {
         const product = products.find(
-          product => String(product.id) === String(cartItem.id)
+          product =>
+            String(product.id) ===
+            String(cartItem.id)
         );
 
         if (!product) {
@@ -571,7 +726,8 @@ function createOrder() {
 
           price: product.price,
 
-          quantity: Number(cartItem.quantity),
+          quantity:
+            Number(cartItem.quantity),
 
           image: product.image,
         };
@@ -584,11 +740,19 @@ function createOrder() {
    ADD POINTS HISTORY
 ========================================= */
 
-function addPointsHistory(title, amount) {
+function addPointsHistory(
+  title,
+  amount
+) {
   let history = [];
 
   try {
-    history = JSON.parse(localStorage.getItem(POINTS_HISTORY_KEY)) || [];
+    history =
+      JSON.parse(
+        localStorage.getItem(
+          POINTS_HISTORY_KEY
+        )
+      ) || [];
   } catch (error) {
     history = [];
   }
@@ -601,7 +765,10 @@ function addPointsHistory(title, amount) {
     date: new Date().toISOString(),
   });
 
-  localStorage.setItem(POINTS_HISTORY_KEY, JSON.stringify(history));
+  localStorage.setItem(
+    POINTS_HISTORY_KEY,
+    JSON.stringify(history)
+  );
 }
 
 /* =========================================
@@ -613,13 +780,23 @@ function spendPoints(order) {
     return;
   }
 
-  const currentPoints = getCustomerPoints();
+  const currentPoints =
+    getCustomerPoints();
 
-  const newBalance = Math.max(0, currentPoints - pointsUsed);
+  const newBalance = Math.max(
+    0,
+    currentPoints - pointsUsed
+  );
 
-  localStorage.setItem(POINTS_KEY, newBalance.toString());
+  localStorage.setItem(
+    POINTS_KEY,
+    newBalance.toString()
+  );
 
-  addPointsHistory(`Used on order #${order.id}`, -pointsUsed);
+  addPointsHistory(
+    `Used on order #${order.id}`,
+    -pointsUsed
+  );
 }
 
 /* =========================================
@@ -628,27 +805,56 @@ function spendPoints(order) {
 
 function addPurchasePoints(order) {
   /*
-    $1 spent = 5 points.
+    $1 spent = 10 points.
 
     Points are calculated from
     the final amount actually paid.
   */
 
-  const earnedPoints = Math.floor(order.total * EARN_POINTS_PER_DOLLAR);
+  const earnedPoints = Math.floor(
+    order.total *
+      EARN_POINTS_PER_DOLLAR
+  );
 
   if (earnedPoints <= 0) {
     return 0;
   }
 
-  const currentPoints = getCustomerPoints();
+  const currentPoints =
+    getCustomerPoints();
 
-  const newBalance = currentPoints + earnedPoints;
+  const newBalance =
+    currentPoints + earnedPoints;
 
-  localStorage.setItem(POINTS_KEY, newBalance.toString());
+  localStorage.setItem(
+    POINTS_KEY,
+    newBalance.toString()
+  );
 
-  addPointsHistory(`Purchase #${order.id}`, earnedPoints);
+  addPointsHistory(
+    `Purchase #${order.id}`,
+    earnedPoints
+  );
 
   return earnedPoints;
+}
+
+/* =========================================
+   MARK REFERRAL AS USED
+========================================= */
+
+function markReferralAsUsed() {
+  const referralDiscount =
+    getReferralDiscount();
+
+  if (referralDiscount <= 0) {
+    return;
+  }
+
+  localStorage.setItem(
+    REFERRAL_USED_KEY,
+    'true'
+  );
 }
 
 /* =========================================
@@ -656,83 +862,110 @@ function addPurchasePoints(order) {
 ========================================= */
 
 if (checkoutForm) {
-  checkoutForm.addEventListener('submit', event => {
-    event.preventDefault();
+  checkoutForm.addEventListener(
+    'submit',
+    event => {
+      event.preventDefault();
 
-    /* =====================================
+      /* =====================================
          CHECK CART
       ===================================== */
 
-    const cart = getCheckoutCart();
+      const cart =
+        getCheckoutCart();
 
-    if (cart.length === 0) {
-      alert('Your cart is empty.');
+      if (cart.length === 0) {
+        alert(
+          'Your cart is empty.'
+        );
 
-      return;
-    }
+        return;
+      }
 
-    /* =====================================
+      /* =====================================
          VALIDATE FORM
       ===================================== */
 
-    if (!checkoutForm.checkValidity()) {
-      checkoutForm.reportValidity();
+      if (
+        !checkoutForm.checkValidity()
+      ) {
+        checkoutForm.reportValidity();
 
-      return;
-    }
+        return;
+      }
 
-    /* =====================================
+      /* =====================================
          VALIDATE POINTS
       ===================================== */
 
-    const maximumUsablePoints = getMaximumUsablePoints();
+      const maximumUsablePoints =
+        getMaximumUsablePoints();
 
-    if (pointsUsed > maximumUsablePoints) {
-      pointsUsed = maximumUsablePoints;
-    }
+      if (
+        pointsUsed >
+        maximumUsablePoints
+      ) {
+        pointsUsed =
+          maximumUsablePoints;
+      }
 
-    /* =====================================
+      /* =====================================
          CREATE ORDER
       ===================================== */
 
-    const order = createOrder();
+      const order =
+        createOrder();
 
-    /* =====================================
+      /* =====================================
          SAVE ORDER
       ===================================== */
 
-    const orders = getOrders();
+      const orders =
+        getOrders();
 
-    orders.push(order);
+      orders.push(order);
 
-    saveOrders(orders);
+      saveOrders(orders);
 
-    /* =====================================
+      /* =====================================
          SPEND POINTS
       ===================================== */
 
-    spendPoints(order);
+      spendPoints(order);
 
-    /* =====================================
+      /* =====================================
          EARN PURCHASE POINTS
       ===================================== */
 
-    const earnedPoints = addPurchasePoints(order);
+      const earnedPoints =
+        addPurchasePoints(order);
 
-    console.log(`Earned ${earnedPoints} points`);
+      console.log(
+        `Earned ${earnedPoints} points`
+      );
 
-    /* =====================================
+      /* =====================================
+         MARK REFERRAL USED
+      ===================================== */
+
+      markReferralAsUsed();
+
+      /* =====================================
          CLEAR CART
       ===================================== */
 
-    localStorage.removeItem(CART_KEY);
+      localStorage.removeItem(
+        CART_KEY
+      );
 
-    /* =====================================
+      /* =====================================
          REDIRECT
       ===================================== */
 
-    window.location.href = 'account.html';
-  });
+      window.location.href =
+        'account.html';
+    }
+  );
 }
 
 /* =========================================

@@ -2,7 +2,8 @@
    ACCOUNT AUTH
 ========================================= */
 
-const isLoggedIn = localStorage.getItem('nestora_logged_in');
+const isLoggedIn =
+  localStorage.getItem('nestora_logged_in');
 
 if (!isLoggedIn) {
   window.location.href = 'login.html';
@@ -12,63 +13,93 @@ if (!isLoggedIn) {
    ELEMENTS
 ========================================= */
 
-const pointsValue = document.querySelector('#points-value');
+const pointsValue =
+  document.querySelector('#points-value');
 
-const rewardValue = document.querySelector('#reward-value');
+const rewardValue =
+  document.querySelector('#reward-value');
 
-const customerName = document.querySelector('#customer-name');
+const customerName =
+  document.querySelector('#customer-name');
 
-const profileName = document.querySelector('#profile-name');
+const profileName =
+  document.querySelector('#profile-name');
 
-const customerEmail = document.querySelector('#customer-email');
+const customerEmail =
+  document.querySelector('#customer-email');
 
-const customerReferrer = document.querySelector('#customer-referrer');
+const customerReferrer =
+  document.querySelector('#customer-referrer');
 
-const referrerInfo = document.querySelector('#referrer-info');
+const referrerInfo =
+  document.querySelector('#referrer-info');
 
-const rewardButtons = document.querySelectorAll('[data-reward]');
+const rewardButtons =
+  document.querySelectorAll('[data-reward]');
 
-const pointsHistoryContainer = document.querySelector('#points-history');
+const pointsHistoryContainer =
+  document.querySelector('#points-history');
 
-const orderHistory = document.querySelector('#order-history');
+const orderHistory =
+  document.querySelector('#order-history');
 
-const logoutButton = document.querySelector('#logout-button');
+const logoutButton =
+  document.querySelector('#logout-button');
 
-const copyReferralButton = document.querySelector('#copy-referral');
+const copyReferralButton =
+  document.querySelector('#copy-referral');
 
-const referralLink = document.querySelector('#referral-link');
-
-const referralCopied = document.querySelector('#referral-copied');
+const referralLink =
+  document.querySelector('#referral-link');
 
 /* =========================================
    EDIT PROFILE ELEMENTS
 ========================================= */
 
-const editProfileButton = document.querySelector('#edit-profile-button');
+const editProfileButton =
+  document.querySelector('#edit-profile-button');
 
-const profileEdit = document.querySelector('#profile-edit');
+const profileEdit =
+  document.querySelector('#profile-edit');
 
-const profileForm = document.querySelector('#profile-form');
+const profileForm =
+  document.querySelector('#profile-form');
 
-const cancelProfileEdit = document.querySelector('#cancel-profile-edit');
+const cancelProfileEdit =
+  document.querySelector('#cancel-profile-edit');
 
-const profileFirstName = document.querySelector('#profile-first-name');
+const profileFirstName =
+  document.querySelector('#profile-first-name');
 
-const profileLastName = document.querySelector('#profile-last-name');
+const profileLastName =
+  document.querySelector('#profile-last-name');
 
-const profileEmail = document.querySelector('#profile-email');
+const profileEmail =
+  document.querySelector('#profile-email');
 
 /* =========================================
    CUSTOMER DATA
 ========================================= */
 
-const savedFirstName = localStorage.getItem('nestora_customer_first_name');
+const savedFirstName =
+  localStorage.getItem(
+    'nestora_customer_first_name'
+  );
 
-const savedEmail = localStorage.getItem('nestora_customer_email');
+const savedEmail =
+  localStorage.getItem(
+    'nestora_customer_email'
+  );
 
-const savedReferralCode = localStorage.getItem('nestora_referral_code');
+const savedReferralCode =
+  localStorage.getItem(
+    'nestora_referral_code'
+  );
 
-const savedReferrer = localStorage.getItem('nestora_customer_referrer');
+const savedReferrer =
+  localStorage.getItem(
+    'nestora_customer_referrer'
+  );
 
 /* =========================================
    CUSTOMER NAME
@@ -76,11 +107,13 @@ const savedReferrer = localStorage.getItem('nestora_customer_referrer');
 
 if (savedFirstName) {
   if (customerName) {
-    customerName.textContent = savedFirstName;
+    customerName.textContent =
+      savedFirstName;
   }
 
   if (profileName) {
-    profileName.textContent = savedFirstName;
+    profileName.textContent =
+      savedFirstName;
   }
 }
 
@@ -89,7 +122,8 @@ if (savedFirstName) {
 ========================================= */
 
 if (savedEmail && customerEmail) {
-  customerEmail.textContent = savedEmail;
+  customerEmail.textContent =
+    savedEmail;
 }
 
 /* =========================================
@@ -97,15 +131,21 @@ if (savedEmail && customerEmail) {
 ========================================= */
 
 if (savedReferralCode && referralLink) {
-  referralLink.textContent = `nestora.com/?ref=${savedReferralCode}`;
+  referralLink.textContent =
+    `nestora.com/?ref=${savedReferralCode}`;
 }
 
 /* =========================================
    REFERRED BY
 ========================================= */
 
-if (savedReferrer && customerReferrer && referrerInfo) {
-  customerReferrer.textContent = savedReferrer;
+if (
+  savedReferrer &&
+  customerReferrer &&
+  referrerInfo
+) {
+  customerReferrer.textContent =
+    savedReferrer;
 
   referrerInfo.hidden = false;
 }
@@ -114,85 +154,167 @@ if (savedReferrer && customerReferrer && referrerInfo) {
    EDIT PROFILE
 ========================================= */
 
-if (editProfileButton && profileEdit) {
-  editProfileButton.addEventListener('click', () => {
-    if (profileFirstName) {
-      profileFirstName.value =
-        localStorage.getItem('nestora_customer_first_name') || '';
-    }
+if (
+  editProfileButton &&
+  profileEdit
+) {
+  editProfileButton.addEventListener(
+    'click',
+    () => {
+      if (profileFirstName) {
+        profileFirstName.value =
+          localStorage.getItem(
+            'nestora_customer_first_name'
+          ) || '';
+      }
 
-    if (profileLastName) {
-      profileLastName.value =
-        localStorage.getItem('nestora_customer_last_name') || '';
-    }
+      if (profileLastName) {
+        profileLastName.value =
+          localStorage.getItem(
+            'nestora_customer_last_name'
+          ) || '';
+      }
 
-    if (profileEmail) {
-      profileEmail.value = localStorage.getItem('nestora_customer_email') || '';
-    }
+      if (profileEmail) {
+        profileEmail.value =
+          localStorage.getItem(
+            'nestora_customer_email'
+          ) || '';
+      }
 
-    profileEdit.classList.add('is-open');
-  });
+      profileEdit.classList.add(
+        'is-open'
+      );
+    }
+  );
 }
 
 /* =========================================
    CANCEL PROFILE EDIT
 ========================================= */
 
-if (cancelProfileEdit && profileEdit) {
-  cancelProfileEdit.addEventListener('click', () => {
-    profileEdit.classList.remove('is-open');
-  });
+if (
+  cancelProfileEdit &&
+  profileEdit
+) {
+  cancelProfileEdit.addEventListener(
+    'click',
+    () => {
+      profileEdit.classList.remove(
+        'is-open'
+      );
+    }
+  );
 }
 
 /* =========================================
    SAVE PROFILE
 ========================================= */
 
-if (profileForm && profileEdit) {
-  profileForm.addEventListener('submit', event => {
-    event.preventDefault();
+if (
+  profileForm &&
+  profileEdit
+) {
+  profileForm.addEventListener(
+    'submit',
+    event => {
+      event.preventDefault();
 
-    const firstName = profileFirstName ? profileFirstName.value.trim() : '';
+      const firstName =
+        profileFirstName
+          ? profileFirstName.value.trim()
+          : '';
 
-    const lastName = profileLastName ? profileLastName.value.trim() : '';
+      const lastName =
+        profileLastName
+          ? profileLastName.value.trim()
+          : '';
 
-    const email = profileEmail ? profileEmail.value.trim().toLowerCase() : '';
+      const email =
+        profileEmail
+          ? profileEmail.value
+              .trim()
+              .toLowerCase()
+          : '';
 
-    if (!firstName || !lastName || !email) {
-      return;
+      if (
+        !firstName ||
+        !lastName ||
+        !email
+      ) {
+        if (
+          typeof showToast ===
+          'function'
+        ) {
+          showToast(
+            'Please fill in all fields',
+            'error'
+          );
+        }
+
+        return;
+      }
+
+      /* SAVE */
+
+      localStorage.setItem(
+        'nestora_customer_first_name',
+        firstName
+      );
+
+      localStorage.setItem(
+        'nestora_customer_last_name',
+        lastName
+      );
+
+      localStorage.setItem(
+        'nestora_customer_email',
+        email
+      );
+
+      /* UPDATE ACCOUNT */
+
+      if (customerName) {
+        customerName.textContent =
+          firstName;
+      }
+
+      if (profileName) {
+        profileName.textContent =
+          firstName;
+      }
+
+      if (customerEmail) {
+        customerEmail.textContent =
+          email;
+      }
+
+      profileEdit.classList.remove(
+        'is-open'
+      );
+
+      if (
+        typeof showToast ===
+        'function'
+      ) {
+        showToast(
+          'Profile updated'
+        );
+      }
     }
-
-    /* Save */
-
-    localStorage.setItem('nestora_customer_first_name', firstName);
-
-    localStorage.setItem('nestora_customer_last_name', lastName);
-
-    localStorage.setItem('nestora_customer_email', email);
-
-    /* Update account */
-
-    if (customerName) {
-      customerName.textContent = firstName;
-    }
-
-    if (profileName) {
-      profileName.textContent = firstName;
-    }
-
-    if (customerEmail) {
-      customerEmail.textContent = email;
-    }
-
-    profileEdit.classList.remove('is-open');
-  });
+  );
 }
 
 /* =========================================
    POINTS
 ========================================= */
 
-let points = Number(localStorage.getItem('nestora_points'));
+let points =
+  Number(
+    localStorage.getItem(
+      'nestora_points'
+    )
+  );
 
 if (!Number.isFinite(points)) {
   points = 4820;
@@ -206,9 +328,16 @@ let pointsHistoryData = [];
 
 try {
   pointsHistoryData =
-    JSON.parse(localStorage.getItem('nestora_points_history')) || [];
+    JSON.parse(
+      localStorage.getItem(
+        'nestora_points_history'
+      )
+    ) || [];
 } catch (error) {
-  console.error('Failed to load points history:', error);
+  console.error(
+    'Failed to load points history:',
+    error
+  );
 
   pointsHistoryData = [];
 }
@@ -220,9 +349,17 @@ try {
 let orders = [];
 
 try {
-  orders = JSON.parse(localStorage.getItem('nestora_orders')) || [];
+  orders =
+    JSON.parse(
+      localStorage.getItem(
+        'nestora_orders'
+      )
+    ) || [];
 } catch (error) {
-  console.error('Failed to load orders:', error);
+  console.error(
+    'Failed to load orders:',
+    error
+  );
 
   orders = [];
 }
@@ -233,16 +370,22 @@ try {
 
 function updateAccount() {
   if (pointsValue) {
-    pointsValue.textContent = points.toLocaleString();
+    pointsValue.textContent =
+      points.toLocaleString();
   }
 
   if (rewardValue) {
-    const rewardDollars = points / 100;
+    const rewardDollars =
+      points / 100;
 
-    rewardValue.textContent = `$${rewardDollars.toFixed(2)}`;
+    rewardValue.textContent =
+      `$${rewardDollars.toFixed(2)}`;
   }
 
-  localStorage.setItem('nestora_points', points.toString());
+  localStorage.setItem(
+    'nestora_points',
+    points.toString()
+  );
 }
 
 /* =========================================
@@ -250,17 +393,25 @@ function updateAccount() {
 ========================================= */
 
 function formatDate(date) {
-  const parsedDate = new Date(date);
+  const parsedDate =
+    new Date(date);
 
-  if (Number.isNaN(parsedDate.getTime())) {
+  if (
+    Number.isNaN(
+      parsedDate.getTime()
+    )
+  ) {
     return '';
   }
 
-  return parsedDate.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  return parsedDate.toLocaleDateString(
+    'en-US',
+    {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }
+  );
 }
 
 /* =========================================
@@ -272,9 +423,12 @@ function renderPointsHistory() {
     return;
   }
 
-  pointsHistoryContainer.innerHTML = '';
+  pointsHistoryContainer.innerHTML =
+    '';
 
-  if (pointsHistoryData.length === 0) {
+  if (
+    pointsHistoryData.length === 0
+  ) {
     pointsHistoryContainer.innerHTML = `
       <p class="points-history__empty">
         No points activity yet.
@@ -288,18 +442,27 @@ function renderPointsHistory() {
     .slice()
     .reverse()
     .forEach(item => {
-      const historyItem = document.createElement('div');
+      const historyItem =
+        document.createElement(
+          'div'
+        );
 
-      historyItem.className = 'points-history__item';
+      historyItem.className =
+        'points-history__item';
 
-      const amount = Number(item.amount);
+      const amount =
+        Number(item.amount);
 
       if (amount < 0) {
-        historyItem.classList.add('points-history__item--spent');
+        historyItem.classList.add(
+          'points-history__item--spent'
+        );
       }
 
       const formattedAmount =
-        amount > 0 ? `+${amount.toLocaleString()}` : amount.toLocaleString();
+        amount > 0
+          ? `+${amount.toLocaleString()}`
+          : amount.toLocaleString();
 
       historyItem.innerHTML = `
         <div>
@@ -317,7 +480,9 @@ function renderPointsHistory() {
         </b>
       `;
 
-      pointsHistoryContainer.appendChild(historyItem);
+      pointsHistoryContainer.appendChild(
+        historyItem
+      );
     });
 }
 
@@ -325,24 +490,32 @@ function renderPointsHistory() {
    ADD POINT HISTORY
 ========================================= */
 
-function addHistoryItem(title, amount) {
-  const numericAmount = Number(amount);
+function addHistoryItem(
+  title,
+  amount
+) {
+  const numericAmount =
+    Number(amount);
 
-  if (!Number.isFinite(numericAmount)) {
+  if (
+    !Number.isFinite(
+      numericAmount
+    )
+  ) {
     return;
   }
 
   pointsHistoryData.push({
     title: title,
-
     amount: numericAmount,
-
     date: new Date().toISOString(),
   });
 
   localStorage.setItem(
     'nestora_points_history',
-    JSON.stringify(pointsHistoryData)
+    JSON.stringify(
+      pointsHistoryData
+    )
   );
 
   renderPointsHistory();
@@ -380,11 +553,16 @@ function renderOrders() {
     .reverse()
     .slice(0, 3)
     .forEach(order => {
-      const orderItem = document.createElement('div');
+      const orderItem =
+        document.createElement(
+          'div'
+        );
 
-      orderItem.className = 'order-history__item';
+      orderItem.className =
+        'order-history__item';
 
-      const total = Number(order.total);
+      const total =
+        Number(order.total);
 
       orderItem.innerHTML = `
         <div class="order-history__info">
@@ -412,7 +590,9 @@ function renderOrders() {
         </div>
       `;
 
-      orderHistory.appendChild(orderItem);
+      orderHistory.appendChild(
+        orderItem
+      );
     });
 }
 
@@ -420,17 +600,29 @@ function renderOrders() {
    ADD ORDER
 ========================================= */
 
-function addOrder(total, status = 'Processing') {
-  const numericTotal = Number(total);
+function addOrder(
+  total,
+  status = 'Processing'
+) {
+  const numericTotal =
+    Number(total);
 
-  if (!Number.isFinite(numericTotal)) {
+  if (
+    !Number.isFinite(
+      numericTotal
+    )
+  ) {
     return;
   }
 
   const order = {
-    id: `NEST-${Math.floor(1000 + Math.random() * 9000)}`,
+    id: `NEST-${Math.floor(
+      1000 +
+      Math.random() * 9000
+    )}`,
 
-    date: new Date().toISOString(),
+    date:
+      new Date().toISOString(),
 
     total: numericTotal,
 
@@ -439,7 +631,10 @@ function addOrder(total, status = 'Processing') {
 
   orders.push(order);
 
-  localStorage.setItem('nestora_orders', JSON.stringify(orders));
+  localStorage.setItem(
+    'nestora_orders',
+    JSON.stringify(orders)
+  );
 
   renderOrders();
 }
@@ -448,68 +643,128 @@ function addOrder(total, status = 'Processing') {
    REDEEM REWARD
 ========================================= */
 
-rewardButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const requiredPoints = Number(button.dataset.reward);
+rewardButtons.forEach(
+  button => {
+    button.addEventListener(
+      'click',
+      () => {
+        const requiredPoints =
+          Number(
+            button.dataset.reward
+          );
 
-    if (!Number.isFinite(requiredPoints)) {
-      return;
-    }
+        if (
+          !Number.isFinite(
+            requiredPoints
+          )
+        ) {
+          return;
+        }
 
-    const rewardAmount = requiredPoints / 100;
+        const rewardAmount =
+          requiredPoints / 100;
 
-    if (points < requiredPoints) {
-      const missingPoints = requiredPoints - points;
+        if (
+          points < requiredPoints
+        ) {
+          const missingPoints =
+            requiredPoints -
+            points;
 
-      alert(`You need ${missingPoints.toLocaleString()} more points.`);
+          if (
+            typeof showToast ===
+            'function'
+          ) {
+            showToast(
+              `You need ${missingPoints.toLocaleString()} more points.`,
+              'error'
+            );
+          }
 
-      return;
-    }
+          return;
+        }
 
-    const confirmed = confirm(
-      `Redeem $${rewardAmount} for ${requiredPoints.toLocaleString()} points?`
+        const confirmed =
+          confirm(
+            `Redeem $${rewardAmount} for ${requiredPoints.toLocaleString()} points?`
+          );
+
+        if (!confirmed) {
+          return;
+        }
+
+        points -=
+          requiredPoints;
+
+        updateAccount();
+
+        addHistoryItem(
+          `$${rewardAmount} reward`,
+          -requiredPoints
+        );
+
+        if (
+          typeof showToast ===
+          'function'
+        ) {
+          showToast(
+            `$${rewardAmount} reward redeemed`
+          );
+        }
+      }
     );
-
-    if (!confirmed) {
-      return;
-    }
-
-    points -= requiredPoints;
-
-    updateAccount();
-
-    addHistoryItem(`$${rewardAmount} reward`, -requiredPoints);
-  });
-});
+  }
+);
 
 /* =========================================
    COPY REFERRAL LINK
 ========================================= */
 
-if (copyReferralButton && referralLink && referralCopied) {
-  copyReferralButton.addEventListener('click', async () => {
-    const link = referralLink.textContent.trim();
+if (
+  copyReferralButton &&
+  referralLink
+) {
+  copyReferralButton.addEventListener(
+    'click',
+    async () => {
+      const link =
+        referralLink.textContent.trim();
 
-    if (!link) {
-      return;
+      if (!link) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(
+          link
+        );
+
+        if (
+          typeof showToast ===
+          'function'
+        ) {
+          showToast(
+            'Referral link copied'
+          );
+        }
+      } catch (error) {
+        console.error(
+          'Failed to copy referral link:',
+          error
+        );
+
+        if (
+          typeof showToast ===
+          'function'
+        ) {
+          showToast(
+            'Failed to copy referral link',
+            'error'
+          );
+        }
+      }
     }
-
-    try {
-      await navigator.clipboard.writeText(link);
-
-      referralCopied.hidden = false;
-
-      copyReferralButton.textContent = 'Copied';
-
-      setTimeout(() => {
-        referralCopied.hidden = true;
-
-        copyReferralButton.textContent = 'Copy';
-      }, 2000);
-    } catch (error) {
-      console.error('Failed to copy referral link:', error);
-    }
-  });
+  );
 }
 
 /* =========================================
@@ -517,11 +772,17 @@ if (copyReferralButton && referralLink && referralCopied) {
 ========================================= */
 
 if (logoutButton) {
-  logoutButton.addEventListener('click', () => {
-    localStorage.removeItem('nestora_logged_in');
+  logoutButton.addEventListener(
+    'click',
+    () => {
+      localStorage.removeItem(
+        'nestora_logged_in'
+      );
 
-    window.location.href = 'login.html';
-  });
+      window.location.href =
+        'login.html';
+    }
+  );
 }
 
 /* =========================================

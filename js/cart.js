@@ -75,6 +75,10 @@ function addToCart(productId, quantity = 1) {
   }
 
   saveCart(cart);
+  
+  if (typeof showToast === 'function') {
+  showToast('Added to cart');
+}
 }
 
 /* =========================================
